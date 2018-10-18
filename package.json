@@ -10,8 +10,16 @@
     "ios": "react-native run-ios &"
   },
   "dependencies": {
+    "prop-types": "^15.6.2",
     "react": "16.6.0-alpha.8af6728",
-    "react-native": "0.57.3"
+    "react-native": "0.57.3",
+    "react-navigation": "^2.18.0",
+    "react-navigation-redux-helpers": "^2.0.6",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.1",
+    "redux-persist": "^4.8.3",
+    "redux-promise-middleware": "^5.1.1",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
@@ -24,7 +32,8 @@
     "jest": "23.6.0",
     "metro-react-native-babel-preset": "0.48.1",
     "prettier": "^1.14.3",
-    "react-test-renderer": "16.6.0-alpha.8af6728"
+    "react-test-renderer": "16.6.0-alpha.8af6728",
+    "redux-logger": "^3.0.6"
   },
   "jest": {
     "preset": "react-native"
