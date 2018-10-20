@@ -9,9 +9,12 @@ const mapStateToProps = state => ({
   username: state.user.username,
 })
 
-const Profile = ({ username }) => (
+const ConfirmAccount = ({ navigation, username }) => (
   <View style={styles.container}>
-    <Text style={styles.welcome}>Welcome to Profile, {username}!</Text>
+    <Text style={styles.welcome}>Welcome to ConfirmAccount, {username}!</Text>
+    <Text style={styles.link} onPress={() => navigation.navigate('Tabs')}>
+      Tabs
+    </Text>
   </View>
 )
 
@@ -29,11 +32,11 @@ const styles = StyleSheet.create({
   },
 })
 
-Profile.propTypes = {
+ConfirmAccount.propTypes = {
   username: PropTypes.string.isRequired,
 }
 
 export default connect(
   mapStateToProps,
   null
-)(Profile)
+)(ConfirmAccount)

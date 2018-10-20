@@ -1,24 +1,46 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Button, Text, StyleSheet, View } from 'react-native'
+
 import Login from '../components/Login'
 import colors from '../styles'
 
-const MainScreen = () => (
+const MainScreen = props => (
   <View style={styles.container}>
+    <Text style={styles.title}>LOF</Text>
     <Login />
+    <View style={styles.textContainer}>
+      <Text style={styles.text}>¿No tienes cuenta? Crea una </Text>
+      <Text
+        style={styles.link}
+        onPress={() => props.navigation.navigate('SignUp')}
+      >
+        acá
+      </Text>
+    </View>
   </View>
 )
-
-MainScreen.navigationOptions = {
-  title: 'Ingresa a tu cuenta',
-}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.BK,
+  },
+  title: {
+    fontSize: 50,
+    color: colors.W,
+  },
+  textContainer: {
+    flexDirection: 'row',
+    marginTop: 15,
+  },
+  text: {
+    color: colors.W,
+  },
+  link: {
+    color: colors.B,
   },
 })
 

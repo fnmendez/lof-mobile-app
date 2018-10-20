@@ -9,9 +9,9 @@ const mapStateToProps = state => ({
   username: state.user.username,
 })
 
-const Profile = ({ username }) => (
+const History = ({ username }) => (
   <View style={styles.container}>
-    <Text style={styles.welcome}>Welcome to Profile, {username}!</Text>
+    <Text style={styles.welcome}>Welcome to History, {username}!</Text>
   </View>
 )
 
@@ -29,11 +29,11 @@ const styles = StyleSheet.create({
   },
 })
 
-Profile.propTypes = {
+History.propTypes = {
   username: PropTypes.string.isRequired,
 }
 
 export default connect(
   mapStateToProps,
   null
-)(Profile)
+)(History)

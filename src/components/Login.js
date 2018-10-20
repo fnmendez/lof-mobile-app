@@ -73,9 +73,7 @@ Login.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
-    marginTop: 40,
   },
   input: {
     height: 40,

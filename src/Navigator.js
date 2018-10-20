@@ -1,18 +1,15 @@
 import { connect } from 'react-redux'
-import { createStackNavigator } from 'react-navigation'
 import {
   reduxifyNavigator,
   createReactNavigationReduxMiddleware,
 } from 'react-navigation-redux-helpers'
 
-import NavigatorConfig from './navigation/Navigator'
+import BaseNavigator from './navigation/Navigator'
 
 const routerMiddleware = createReactNavigationReduxMiddleware(
   'root',
   state => state.nav
 )
-
-const BaseNavigator = createStackNavigator(NavigatorConfig)
 
 const AppWithNavigationState = reduxifyNavigator(BaseNavigator, 'root')
 

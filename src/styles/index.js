@@ -1,8 +1,9 @@
 const colors = {
-  B: '#425ab1',
+  B: '#1c60d5',
   BG: '#adb0c1',
   BK: '#000',
   DO: '#1e2025',
+  DB: '#0dabb0',
   G: '#5a565c',
   GN: '#266b3b',
   P: '#734998',

@@ -1,0 +1,6 @@
+export { default as Main } from './Main'
+export { default as SignUp } from './SignUp'
+export { default as ConfirmAccount } from './ConfirmAccount'
+export { default as BikesMap } from './BikesMap'
+export { default as History } from './History'
+export { default as Profile } from './Profile'

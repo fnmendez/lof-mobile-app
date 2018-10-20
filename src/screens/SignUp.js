@@ -11,7 +11,7 @@ const mapStateToProps = state => ({
 
 const Profile = ({ username }) => (
   <View style={styles.container}>
-    <Text style={styles.welcome}>Welcome to Profile, {username}!</Text>
+    <Text style={styles.welcome}>Welcome to SignUp, {username}!</Text>
   </View>
 )
 
