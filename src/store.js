@@ -7,10 +7,14 @@ import { autoRehydrate } from 'redux-persist'
 import reducers from './reducers'
 import { routerMiddleware } from './Navigator'
 
-export default function configureStore(initialState = {}) {
+export default function configureStore(initialState = {}, { api }) {
   const shouldLog = process.env.NODE_ENV !== 'production'
 
-  const middlewares = [thunk, promiseMiddleware(), routerMiddleware]
+  const middlewares = [
+    thunk.withExtraArgument({ api }),
+    promiseMiddleware(),
+    routerMiddleware,
+  ]
 
   if (shouldLog) middlewares.push(logger)
 

@@ -1,7 +1,8 @@
 import React from 'react'
-import { Button, Text, StyleSheet, View } from 'react-native'
+import PropTypes from 'prop-types'
+import { Text, StyleSheet, View } from 'react-native'
 
-import Login from '../components/Login'
+import { Login } from '../components'
 import colors from '../styles'
 
 const MainScreen = props => (
@@ -19,6 +20,10 @@ const MainScreen = props => (
     </View>
   </View>
 )
+
+MainScreen.propTypes = {
+  navigation: PropTypes.object.isRequired,
+}
 
 const styles = StyleSheet.create({
   container: {

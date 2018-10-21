@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
+  ActivityIndicator,
   Alert,
   StyleSheet,
   Text,
@@ -13,6 +14,10 @@ import {
 import { login } from '../actions/user'
 import colors from '../styles'
 
+const mapStateToProps = state => ({
+  loading: state.user.loading,
+})
+
 const mapDispatchToProps = {
   login: login,
 }
@@ -21,22 +26,27 @@ class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      username: '',
+      mail: '',
+      password: '',
     }
   }
 
-  onChange = value => {
-    this.setState({
-      username: value.trim(),
-    })
+  setEmail = mail => this.setState({ mail })
+
+  setPassword = password => this.setState({ password })
+
+  handleSubmit = () => {
+    const { mail, password } = this.state
+    if (!this.validInput({ mail, password })) return
+    this.props.login({ mail, password })
   }
 
-  validateUsername = () => {
-    if (!this.state.username.length) {
+  validInput = ({ mail, password }) => {
+    if (!mail.length || !password.length) {
       Alert.alert('Debes ingresar un nombre de usuario')
-    } else {
-      this.props.login({ username: this.state.username })
+      return false
     }
+    return true
   }
 
   render() {
@@ -46,22 +56,39 @@ class Login extends Component {
           style={styles.input}
           placeholder="Usuario"
           placeholderTextColor={colors.PBK}
+          textContentType="username"
+          keyboardType="email-address"
           returnKeyType="go"
           autoCapitalize="none"
           autoCorrect={false}
-          maxLength={18}
-          onChangeText={username =>
-            this.setState({ username: username.trim() })
-          }
-          onSubmitEditing={this.validateUsername}
-          selectionColor={colors.P}
+          maxLength={24}
+          onChangeText={this.setEmail}
+          onSubmitEditing={this.handleSubmit}
         />
-        <TouchableOpacity
-          style={styles.buttonContainer}
-          onPress={this.validateUsername}
-        >
-          <Text style={styles.buttonText}>Ingresar</Text>
-        </TouchableOpacity>
+        <TextInput
+          style={styles.input}
+          placeholder="Contraseña"
+          placeholderTextColor={colors.PBK}
+          textContentType="password"
+          secureTextEntry={true}
+          returnKeyType="go"
+          autoCapitalize="none"
+          autoCorrect={false}
+          maxLength={12}
+          onChangeText={this.setPassword}
+          onSubmitEditing={this.handleSubmit}
+        />
+        {this.props.loading && (
+          <ActivityIndicator size="large" color={colors.YO} />
+        )}
+        {!this.props.loading && (
+          <TouchableOpacity
+            style={styles.buttonContainer}
+            onPress={this.handleSubmit}
+          >
+            <Text style={styles.buttonText}>Ingresar</Text>
+          </TouchableOpacity>
+        )}
       </View>
     )
   }
@@ -69,6 +96,7 @@ class Login extends Component {
 
 Login.propTypes = {
   login: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
 }
 
 const styles = StyleSheet.create({
@@ -99,6 +127,6 @@ const styles = StyleSheet.create({
 })
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Login)

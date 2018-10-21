@@ -65,15 +65,40 @@ const Tabs = createBottomTabNavigator(
 const StackNavigator = createStackNavigator(
   // Screens
   {
-    Main: { screen: Main },
-    SignUp: { screen: SignUp },
-    ConfirmAccount: { screen: ConfirmAccount },
-    Tabs: { screen: Tabs },
+    Main: {
+      screen: Main,
+      navigationOptions: {
+        header: null,
+        title: 'Ingreso',
+      },
+    },
+    SignUp: {
+      screen: SignUp,
+      navigationOptions: {
+        title: 'Registro',
+      },
+    },
+    ConfirmAccount: {
+      screen: ConfirmAccount,
+      navigationOptions: {
+        header: null,
+        title: 'Confirma tu cuenta',
+      },
+    },
+    Tabs: {
+      screen: Tabs,
+      navigationOptions: {
+        header: null,
+      },
+    },
   },
   // Options
   {
-    headerMode: 'none',
-    mode: 'modal',
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: colors.BK,
+      },
+    },
   }
 )
 

@@ -12,6 +12,7 @@ const colors = {
   T: 'transparent',
   W: '#fff',
   R: '#8E2323',
+  YO: 'rgb(208, 147, 28)',
 }
 
 export default colors
