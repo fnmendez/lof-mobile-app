@@ -8,11 +8,9 @@ class Api {
   request = async req => {
     try {
       const res = await req
-      console.log('RESPONSE')
-      console.log(res)
       return res.data
     } catch (err) {
-      throw err.message
+      throw Object(err.response.data)
     }
   }
 
@@ -60,26 +58,12 @@ class Api {
   /* BIKES */
 
   getBikes = async ({ latitude, longitude, token }) => {
-    const response = await this.get(`/bikes/${latitude}/${longitude}`, {
-      token,
-    })
-    if (response.status !== 200) {
-      throw Object({ message: 'Por favor confirma tu email' })
-    }
+    const response = await this.get(`/bikes/${latitude}/${longitude}`, token)
     return response
   }
 
   requestBike = async ({ rubi_id, token }) => {
-    const response = await this.post(
-      `/bikes/${rubi_id}/request`,
-      {},
-      {
-        token,
-      }
-    )
-    if (response.status !== 200) {
-      throw Object({ message: 'Por favor confirma tu email' })
-    }
+    const response = await this.post(`/bikes/${rubi_id}/request`, {}, { token })
     return response
   }
 

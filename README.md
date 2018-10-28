@@ -29,7 +29,7 @@
 ### 3. Start Android and iOS phone simulators
 
   ```sh
-  yarn simulate
+  yarn sim
   ```
 
 ## Author

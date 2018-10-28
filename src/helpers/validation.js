@@ -20,7 +20,6 @@ const UserSchema = Yup.object().shape({
   mail: Yup.string()
     .email('Ingresa un correo electrónico válido')
     .required('Ingresa tu correo electrónico'),
-  address: Yup.string().required('Ingresa tu dirección'),
   password: Yup.string()
     .min(6, 'Ingresa una contraseña de largo mayor a 5')
     .required('Ingresa una contraseña'),

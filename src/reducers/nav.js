@@ -31,13 +31,10 @@ export default function reducer(state = initialNavState, action) {
       break
     }
     case SIGNUP_FULFILLED: {
-      const confirmed = get(payload, ['confirmed'])
-      if (confirmed) {
-        nextState = BaseNavigator.router.getStateForAction(
-          NavigationActions.navigate({ routeName: 'Tabs' }),
-          state
-        )
-      }
+      nextState = BaseNavigator.router.getStateForAction(
+        NavigationActions.navigate({ routeName: 'ConfirmAccount' }),
+        state
+      )
       break
     }
     case CHECK_CONFIRMATION_FULFILLED: {

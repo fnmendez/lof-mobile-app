@@ -1,5 +1,4 @@
 import _ from 'lodash/fp/object'
-import { REHYDRATE } from 'redux-persist/constants'
 
 import {
   GET_BIKES_PENDING,
@@ -31,7 +30,7 @@ export default function reducer(state = initialState, action) {
       return _.merge(state, { loading: true })
     }
     case GET_BIKES_FULFILLED: {
-      return _.merge(state, { ...payload, loading: false })
+      return _.merge(state, { bikes: payload.bikes, loading: false })
     }
     case GET_BIKES_REJECTED: {
       return _.merge(state, { ...initialState, error: payload.message })
@@ -62,13 +61,6 @@ export default function reducer(state = initialState, action) {
     }
     case GET_TRIPS_REJECTED: {
       return _.merge(state, { ...initialState, error: payload.message })
-    }
-    case REHYDRATE: {
-      return _.merge(state, {
-        ...payload.bike,
-        error: '',
-        loading: false,
-      })
     }
     default: {
       return state

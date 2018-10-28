@@ -5,14 +5,14 @@ import {
   GET_HISTORY,
 } from '../constants/bikes'
 
-export const getBikes = ({ lat, lon, token }) => (
+export const getBikes = ({ latitude, longitude, token }) => (
   dispatch,
   getState,
   { api }
 ) =>
   dispatch({
     type: GET_BIKES,
-    payload: api.getBikes({ lat, lon, token }),
+    payload: api.getBikes({ latitude, longitude, token }),
   })
 
 export const requestBike = ({ rubi_id, token }) => (

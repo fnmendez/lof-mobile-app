@@ -10,7 +10,7 @@ import MC from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import {
   Main,
-  SignUp,
+  Register,
   ConfirmAccount,
   BikesMap,
   History,
@@ -51,7 +51,8 @@ const Tabs = createBottomTabNavigator(
   },
   // Options
   {
-    tabBarPosition: 'top',
+    initialRouteName: 'BikesMap',
+    order: ['History', 'BikesMap', 'Profile'],
     tabBarOptions: {
       showLabel: false,
       tintColor: colors.DB,
@@ -72,8 +73,8 @@ const StackNavigator = createStackNavigator(
         title: 'Ingreso',
       },
     },
-    SignUp: {
-      screen: SignUp,
+    Register: {
+      screen: Register,
       navigationOptions: {
         title: 'Registro',
       },

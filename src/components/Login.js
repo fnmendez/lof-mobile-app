@@ -19,7 +19,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  login: login,
+  login,
 }
 
 class Login extends Component {
@@ -61,7 +61,7 @@ class Login extends Component {
           returnKeyType="go"
           autoCapitalize="none"
           autoCorrect={false}
-          maxLength={24}
+          maxLength={40}
           onChangeText={this.setEmail}
           onSubmitEditing={this.handleSubmit}
         />

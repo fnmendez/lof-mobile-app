@@ -23,8 +23,6 @@ const initialState = {
   firstName: '',
   lastName: '',
   mail: '',
-  address: '',
-  password: '',
   token: '',
   error: '',
   warning: '',

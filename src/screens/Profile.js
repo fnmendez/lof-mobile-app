@@ -6,12 +6,12 @@ import PropTypes from 'prop-types'
 import colors from '../styles'
 
 const mapStateToProps = state => ({
-  username: state.user.username,
+  mail: state.user.mail,
 })
 
-const Profile = ({ username }) => (
+const Profile = ({ mail }) => (
   <View style={styles.container}>
-    <Text style={styles.welcome}>Welcome to Profile, {username}!</Text>
+    <Text style={styles.welcome}>Welcome to Profile, {mail}!</Text>
   </View>
 )
 
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 })
 
 Profile.propTypes = {
-  username: PropTypes.string.isRequired,
+  mail: PropTypes.string.isRequired,
 }
 
 export default connect(

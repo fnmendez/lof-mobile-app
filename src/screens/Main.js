@@ -1,24 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Text, StyleSheet, View } from 'react-native'
+import { KeyboardAvoidingView, Text, StyleSheet, View } from 'react-native'
 
 import { Login } from '../components'
 import colors from '../styles'
 
 const MainScreen = props => (
-  <View style={styles.container}>
+  <KeyboardAvoidingView style={styles.container} behavior="padding">
     <Text style={styles.title}>LOF</Text>
     <Login />
     <View style={styles.textContainer}>
       <Text style={styles.text}>¿No tienes cuenta? Crea una </Text>
       <Text
         style={styles.link}
-        onPress={() => props.navigation.navigate('SignUp')}
+        onPress={() => props.navigation.navigate('Register')}
       >
         acá
       </Text>
     </View>
-  </View>
+  </KeyboardAvoidingView>
 )
 
 MainScreen.propTypes = {

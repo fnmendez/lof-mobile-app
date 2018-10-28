@@ -15,6 +15,7 @@ import colors from '../styles'
 const mapStateToProps = state => ({
   mail: state.user.mail,
   token: state.user.token,
+  loading: state.user.loading,
 })
 
 const mapDispatchToProps = {
@@ -52,6 +53,13 @@ class ConfirmAccount extends Component {
   }
 }
 
+ConfirmAccount.propTypes = {
+  mail: PropTypes.string.isRequired,
+  token: PropTypes.string.isRequired,
+  loading: PropTypes.bool.isRequired,
+  checkConfirmation: PropTypes.func.isRequired,
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -84,13 +92,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
 })
-
-ConfirmAccount.propTypes = {
-  mail: PropTypes.string.isRequired,
-  token: PropTypes.string.isRequired,
-  loading: PropTypes.bool.isRequired,
-  checkConfirmation: PropTypes.func.isRequired,
-}
 
 export default connect(
   mapStateToProps,
