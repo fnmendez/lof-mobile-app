@@ -7,12 +7,12 @@ const colors = {
   G: '#5a565c',
   GN: '#266b3b',
   P: '#734998',
-  PBK: '#3b3b3b',
-  PW: '#d7d7d7',
+  PBK: '#1c1c1c',
+  PW: '#ebebeb',
   T: 'transparent',
   W: '#fff',
   R: '#8E2323',
-  YO: 'rgb(208, 147, 28)',
+  YO: '#d0931c',
 }
 
 export default colors

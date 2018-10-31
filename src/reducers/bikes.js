@@ -16,8 +16,7 @@ import {
 } from '../constants/bikes'
 
 const initialState = {
-  bike: {},
-  bikes: [],
+  available: [],
   trips: [],
   error: '',
   loading: false,
@@ -30,7 +29,7 @@ export default function reducer(state = initialState, action) {
       return _.merge(state, { loading: true })
     }
     case GET_BIKES_FULFILLED: {
-      return _.merge(state, { bikes: payload.bikes, loading: false })
+      return _.merge(state, { available: payload.bikes, loading: false })
     }
     case GET_BIKES_REJECTED: {
       return _.merge(state, { ...initialState, error: payload.message })

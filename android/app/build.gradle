@@ -137,6 +137,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-ble-manager')
     compile project(':react-native-vector-icons')
     compile project(':mapbox-react-native-mapbox-gl')
     implementation fileTree(dir: "libs", include: ["*.jar"])

@@ -33,7 +33,7 @@ export default function configureStore(initialState = {}, { api }) {
 
   const persistor = persistStore(store)
 
-  /* To clear the store */
+  // To clear the store
   // persistor.purge()
 
   return { store, persistor }
