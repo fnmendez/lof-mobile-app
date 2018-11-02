@@ -3,9 +3,11 @@ import get from 'lodash/get'
 
 import { BaseNavigator } from '../Navigator'
 import {
-  LOGIN_FULFILLED,
-  SIGNUP_FULFILLED,
   CHECK_CONFIRMATION_FULFILLED,
+  DELETE_FULFILLED,
+  LOGIN_FULFILLED,
+  LOGOUT,
+  SIGNUP_FULFILLED,
 } from '../constants/user'
 
 const firstAction = BaseNavigator.router.getActionForPathAndParams('Main')
@@ -50,6 +52,20 @@ export default function reducer(state = initialNavState, action) {
           state
         )
       }
+      break
+    }
+    case LOGOUT: {
+      nextState = BaseNavigator.router.getStateForAction(
+        NavigationActions.navigate({ routeName: 'Main' }),
+        state
+      )
+      break
+    }
+    case DELETE_FULFILLED: {
+      nextState = BaseNavigator.router.getStateForAction(
+        NavigationActions.navigate({ routeName: 'Main' }),
+        state
+      )
       break
     }
     default: {

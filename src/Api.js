@@ -10,6 +10,10 @@ class Api {
       const res = await req
       return res.data
     } catch (err) {
+      if (!err.response)
+        throw Object(
+          'Hubo un problema con el servidor. Por favor intenta más tarde'
+        )
       throw Object(err.response.data)
     }
   }
@@ -51,7 +55,7 @@ class Api {
   }
 
   deleteUser = async ({ token }) => {
-    const response = await this.post(`/user/${token}/delete`)
+    const response = await this.post(`/user/${token}/delete`, {})
     return response
   }
 

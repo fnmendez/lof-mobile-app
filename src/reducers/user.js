@@ -20,13 +20,13 @@ import {
 } from '../constants/user'
 
 const initialState = {
+  balance: null,
+  error: '',
   firstName: '',
   lastName: '',
+  loading: false,
   mail: '',
   token: '',
-  error: '',
-  warning: '',
-  loading: false,
 }
 
 export default function reducer(state = initialState, action) {
@@ -36,7 +36,7 @@ export default function reducer(state = initialState, action) {
       return _.merge(state, { loading: true })
     }
     case GET_USER_FULFILLED: {
-      return _.merge(state, { ...payload, error: '', loading: false })
+      return _.merge(state, { ...payload, loading: false })
     }
     case GET_USER_REJECTED: {
       return _.merge(state, { ...initialState, error: payload.message })

@@ -38,10 +38,10 @@ export const update = userData => (dispatch, getState, { api }) =>
     payload: api.updateUser(userData),
   })
 
-export const destroy = ({ mail, password }) => (dispatch, getState, { api }) =>
+export const destroy = ({ token }) => (dispatch, getState, { api }) =>
   dispatch({
     type: DELETE,
-    payload: api.deleteUser({ mail, password }),
+    payload: api.deleteUser({ token }),
   })
 
 export const logout = () => dispatch =>

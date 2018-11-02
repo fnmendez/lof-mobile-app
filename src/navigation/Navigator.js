@@ -57,7 +57,7 @@ const Tabs = createBottomTabNavigator(
       showLabel: false,
       tintColor: colors.DB,
       style: {
-        backgroundColor: colors.BK,
+        backgroundColor: colors.PBK,
       },
     },
   }
