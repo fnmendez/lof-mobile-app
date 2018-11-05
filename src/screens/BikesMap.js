@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
+  Platform,
   StatusBar,
   StyleSheet,
   Text,
@@ -51,21 +52,15 @@ class BikesMap extends Component {
 
   showBluetoothWindow = bluetoothParams => {
     this.setState({
-      showBluetoothWindow: true,
       selectedBike: { ...bluetoothParams },
+      showBluetoothWindow: true,
     })
   }
 
-  renderBluetoothWindow = () => {
-    const { rubi_id, macAddress, hs1, hs2 } = this.state.selectedBike
-    return (
-      <BluetoothWindow
-        rubi_id={rubi_id}
-        macAddress={macAddress}
-        firstHandshake={strToHexArr(hs1)}
-        secondHandshake={strToHexArr(hs2)}
-      />
-    )
+  hideBluetoothWindow = () => {
+    this.setState({
+      showBluetoothWindow: false,
+    })
   }
 
   onBikePress = bluetoothParams => {
@@ -73,21 +68,36 @@ class BikesMap extends Component {
   }
 
   renderBikeMarkers = bike => {
-    const { rubi_id, coordinates, macAddress, hs1, hs2 } = bike
+    const { rubi_id, coordinates, macAndroid, macIOS, hs1, hs2 } = bike
     return (
       <Bike
         key={rubi_id}
         rubi_id={rubi_id}
         coordinates={coordinates}
-        onPress={() => this.onBikePress({ rubi_id, macAddress, hs1, hs2 })}
+        onPress={() =>
+          this.onBikePress({ rubi_id, macAndroid, macIOS, hs1, hs2 })
+        }
       />
     )
   }
 
   render() {
+    const { rubi_id, macAndroid, macIOS, hs1, hs2 } = this.state.selectedBike
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="dark-content" />
+        <StatusBar barStyle="light-content" />
+        {rubi_id &&
+          hs1 &&
+          hs2 && (
+            <BluetoothWindow
+              visible={this.state.showBluetoothWindow}
+              onOutsideClick={this.hideBluetoothWindow}
+              rubi_id={rubi_id}
+              macAddress={Platform.OS === 'ios' ? macIOS : macAndroid}
+              firstHandshake={strToHexArr(hs1)}
+              secondHandshake={strToHexArr(hs2)}
+            />
+          )}
         <Mapbox.MapView
           ref={c => (this.map = c)}
           styleURL={Mapbox.StyleURL.Light}
@@ -98,10 +108,7 @@ class BikesMap extends Component {
           onLongPress={this.onMapLongPress}
           {...mapboxConfig}
         >
-          <>
-            {this.props.bikes.map(this.renderBikeMarkers)}
-            {this.state.showBluetoothWindow && this.renderBluetoothWindow()}
-          </>
+          <>{this.props.bikes.map(this.renderBikeMarkers)}</>
         </Mapbox.MapView>
         <View style={styles.testContainer}>
           <View style={styles.test}>
@@ -133,7 +140,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   testContainer: {
-    height: 0,
+    height: 30,
     alignItems: 'center',
     justifyContent: 'center',
   },

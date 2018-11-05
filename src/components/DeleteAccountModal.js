@@ -12,7 +12,12 @@ import {
 import colors from '../styles'
 
 const DeleteAccountModal = props => (
-  <Modal visible={props.visible} animationType="fade" transparent={true}>
+  <Modal
+    visible={props.visible}
+    animationType="fade"
+    transparent={true}
+    onRequestClose={props.onOutsideClick}
+  >
     <TouchableWithoutFeedback onPress={props.onOutsideClick}>
       <View style={styles.modalContentContainer}>
         <View style={styles.modalContent}>

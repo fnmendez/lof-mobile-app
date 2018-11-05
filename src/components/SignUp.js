@@ -9,8 +9,8 @@ import {
 } from 'react-native'
 import { Formik } from 'formik'
 
+import { RegisterSchema } from '../helpers/validation'
 import Input from './Input'
-import { LoginSchema } from '../helpers/validation'
 import colors from '../styles'
 
 const mapStateToProps = state => ({
@@ -18,16 +18,19 @@ const mapStateToProps = state => ({
   loading: state.user.loading,
 })
 
-class Login extends Component {
+class SignUp extends Component {
   render() {
     return (
       <Formik
         initialValues={{
+          firstName: '',
+          lastName: '',
           mail: '',
           password: '',
+          confirmPassword: '',
         }}
         onSubmit={this.props.handleSubmit}
-        validationSchema={LoginSchema}
+        validationSchema={RegisterSchema}
         render={({
           errors,
           handleSubmit,
@@ -37,6 +40,32 @@ class Login extends Component {
           values,
         }) => (
           <>
+            <Input
+              label="Nombre"
+              autoCapitalize="words"
+              value={values.firstName}
+              autoCorrect={false}
+              returnKeyType="go"
+              placeholderTextColor={colors.PBK}
+              onChange={setFieldValue}
+              onTouch={setFieldTouched}
+              onSubmitEditing={handleSubmit}
+              name="firstName"
+              error={touched.firstName && errors.firstName}
+            />
+            <Input
+              label="Apellido"
+              autoCapitalize="words"
+              value={values.lastName}
+              autoCorrect={false}
+              returnKeyType="go"
+              placeholderTextColor={colors.PBK}
+              onChange={setFieldValue}
+              onTouch={setFieldTouched}
+              onSubmitEditing={handleSubmit}
+              name="lastName"
+              error={touched.lastName && errors.lastName}
+            />
             <Input
               label="Correo electrónico"
               autoCapitalize="none"
@@ -65,6 +94,20 @@ class Login extends Component {
               error={touched.password && errors.password}
               secureTextEntry={true}
             />
+            <Input
+              label="Confirmar contraseña"
+              autoCapitalize="none"
+              value={values.confirmPassword}
+              autoCorrect={false}
+              returnKeyType="go"
+              placeholderTextColor={colors.PBK}
+              onChange={setFieldValue}
+              onTouch={setFieldTouched}
+              onSubmitEditing={handleSubmit}
+              name="confirmPassword"
+              error={touched.confirmPassword && errors.confirmPassword}
+              secureTextEntry={true}
+            />
             {!!this.props.error && (
               <Text style={styles.error}>{this.props.error}</Text>
             )}
@@ -86,7 +129,7 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
+SignUp.propTypes = {
   error: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
@@ -95,7 +138,7 @@ Login.propTypes = {
 const styles = StyleSheet.create({
   buttonContainer: {
     width: 250,
-    marginTop: 10,
+    marginTop: 20,
     borderRadius: 8,
     backgroundColor: colors.B,
     paddingVertical: 10,
@@ -106,7 +149,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   error: {
-    marginTop: 1,
+    marginTop: 3,
     marginBottom: 12,
     fontSize: 14,
     color: colors.R,
@@ -116,4 +159,4 @@ const styles = StyleSheet.create({
 export default connect(
   mapStateToProps,
   null
-)(Login)
+)(SignUp)

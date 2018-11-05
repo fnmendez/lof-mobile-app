@@ -1,27 +1,57 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { KeyboardAvoidingView, Text, StyleSheet, View } from 'react-native'
+import { connect } from 'react-redux'
+import {
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native'
 
 import { Login } from '../components'
+import { login } from '../actions/user'
 import colors from '../styles'
 
-const MainScreen = props => (
-  <KeyboardAvoidingView style={styles.container} behavior="padding">
-    <Text style={styles.title}>LOF</Text>
-    <Login />
-    <View style={styles.textContainer}>
-      <Text style={styles.text}>¿No tienes cuenta? Crea una </Text>
-      <Text
-        style={styles.link}
-        onPress={() => props.navigation.navigate('Register')}
+const mapDispatchToProps = {
+  login,
+}
+
+class MainScreen extends Component {
+  handleSubmit = async (values, bag) => {
+    try {
+      await this.props.login(values)
+    } catch (err) {
+      bag.setSubmitting(false)
+      bag.setErrors(err)
+    }
+  }
+
+  render() {
+    const { navigate } = this.props.navigation
+    return (
+      <KeyboardAvoidingView
+        style={styles.container}
+        {...(Platform.OS === 'ios' ? { behavior: 'padding' } : null)}
       >
-        acá
-      </Text>
-    </View>
-  </KeyboardAvoidingView>
-)
+        <Text style={styles.title}>LOF</Text>
+        <Login handleSubmit={this.handleSubmit} />
+        <View style={styles.textContainer}>
+          <Text style={styles.text}>¿No tienes cuenta? Crea una </Text>
+          <TouchableWithoutFeedback onPress={() => navigate('Register')}>
+            <View style={styles.linkContainer}>
+              <Text style={styles.link}>aquí</Text>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+      </KeyboardAvoidingView>
+    )
+  }
+}
 
 MainScreen.propTypes = {
+  login: PropTypes.func.isRequired,
   navigation: PropTypes.object.isRequired,
 }
 
@@ -36,17 +66,28 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 50,
     color: colors.W,
+    marginBottom: 10,
   },
   textContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
     marginTop: 15,
+    marginLeft: 25,
   },
   text: {
     color: colors.W,
+  },
+  linkContainer: {
+    height: 35,
+    paddingRight: 25,
+    justifyContent: 'center',
   },
   link: {
     color: colors.B,
   },
 })
 
-export default MainScreen
+export default connect(
+  null,
+  mapDispatchToProps
+)(MainScreen)

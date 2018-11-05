@@ -1,4 +1,5 @@
 import _ from 'lodash/fp/object'
+import { REHYDRATE } from 'redux-persist/lib/constants'
 
 import {
   GET_USER_PENDING,
@@ -66,7 +67,7 @@ export default function reducer(state = initialState, action) {
       return _.merge(state, { ...payload, loading: false })
     }
     case UPDATE_REJECTED: {
-      return _.merge(state, { ...initialState, error: payload.message })
+      return _.merge(state, { error: payload.message })
     }
     case DELETE_PENDING: {
       return _.merge(state, { loading: true })
@@ -75,14 +76,17 @@ export default function reducer(state = initialState, action) {
       return _.merge(state, { ...payload, loading: false })
     }
     case DELETE_REJECTED: {
-      return _.merge(state, { ...initialState, error: payload.message })
+      return _.merge(state, { error: payload.message })
     }
     case LOGOUT: {
       state = undefined
       return _.merge(state, initialState)
     }
-    default: {
+    case REHYDRATE: {
       return state
+    }
+    default: {
+      return _.merge(state, { error: '' })
     }
   }
 }

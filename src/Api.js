@@ -11,9 +11,9 @@ class Api {
       return res.data
     } catch (err) {
       if (!err.response)
-        throw Object(
-          'Hubo un problema con el servidor. Por favor intenta más tarde'
-        )
+        throw Object({
+          message: 'El servidor no responde, por favor intenta más tarde',
+        })
       throw Object(err.response.data)
     }
   }

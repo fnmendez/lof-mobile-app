@@ -152,6 +152,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: colors.R,
     paddingVertical: 10,
+    marginBottom: 50,
   },
   buttonText: {
     textAlign: 'center',

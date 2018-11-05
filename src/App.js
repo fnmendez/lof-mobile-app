@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
-import { StatusBar } from 'react-native'
 
 import configureStore from './store'
 import Api from './Api'
@@ -19,10 +18,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <>
-            <StatusBar barStyle="light-content" />
-            <Navigator />
-          </>
+          <Navigator />
         </PersistGate>
       </Provider>
     )

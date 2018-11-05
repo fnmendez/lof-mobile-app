@@ -32,8 +32,8 @@ UserInfo.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 30,
-    marginBottom: 30,
+    marginTop: 20,
+    marginBottom: 20,
     alignSelf: 'stretch',
   },
   textContainer: {

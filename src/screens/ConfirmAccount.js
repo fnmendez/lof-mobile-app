@@ -9,7 +9,7 @@ import {
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { checkConfirmation } from '../actions/user'
+import { checkConfirmation, logout } from '../actions/user'
 import colors from '../styles'
 
 const mapStateToProps = state => ({
@@ -20,11 +20,16 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   checkConfirmation,
+  logout,
 }
 
 class ConfirmAccount extends Component {
-  handlePress = () => {
+  handleSubmit = () => {
     this.props.checkConfirmation({ token: this.props.token })
+  }
+
+  handleReturn = () => {
+    this.props.logout()
   }
 
   render() {
@@ -43,21 +48,28 @@ class ConfirmAccount extends Component {
         {!this.props.loading && (
           <TouchableOpacity
             style={styles.buttonContainer}
-            onPress={this.handlePress}
+            onPress={this.handleSubmit}
           >
             <Text style={styles.buttonText}>Listo</Text>
           </TouchableOpacity>
         )}
+        <TouchableOpacity
+          style={styles.backButtonContainer}
+          onPress={this.handleReturn}
+        >
+          <Text style={styles.buttonText}>Volver</Text>
+        </TouchableOpacity>
       </View>
     )
   }
 }
 
 ConfirmAccount.propTypes = {
+  checkConfirmation: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  logout: PropTypes.func.isRequired,
   mail: PropTypes.string.isRequired,
   token: PropTypes.string.isRequired,
-  loading: PropTypes.bool.isRequired,
-  checkConfirmation: PropTypes.func.isRequired,
 }
 
 const styles = StyleSheet.create({
@@ -69,7 +81,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.BK,
   },
   window: {
-    backgroundColor: colors.G,
+    backgroundColor: colors.DG,
     borderRadius: 15,
   },
   text: {
@@ -84,6 +96,13 @@ const styles = StyleSheet.create({
     width: 250,
     borderRadius: 8,
     backgroundColor: colors.B,
+    paddingVertical: 10,
+  },
+  backButtonContainer: {
+    marginTop: 15,
+    width: 250,
+    borderRadius: 8,
+    backgroundColor: colors.G,
     paddingVertical: 10,
   },
   buttonText: {

@@ -3,11 +3,13 @@ import PropTypes from 'prop-types'
 import {
   ActivityIndicator,
   AppState,
+  Modal,
   NativeModules,
   NativeEventEmitter,
   StyleSheet,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native'
 import BleManager from 'react-native-ble-manager'
@@ -117,7 +119,7 @@ class BluetoothWindow extends Component {
   requestOpen = async () => {
     const { macAddress, firstHandshake, secondHandshake } = this.props
     await this.bluetooth.connect(macAddress)
-    await this.bluetooth.retrieveServices(macAddress, Array.of(serviceUUID))
+    await this.bluetooth.retrieveServices(macAddress, [serviceUUID])
     await retry(
       this.bluetooth.write,
       [macAddress, serviceUUID, characteristicUUID, firstHandshake],
@@ -143,85 +145,61 @@ class BluetoothWindow extends Component {
      * It is likely to be needed to discover a device first so
      * one is able to read/write to its bluetooth characteristic.
      */
-    this.bluetooth.scan(Array.of(serviceUUID), scanTimeOut)
+    this.bluetooth.scan([serviceUUID], scanTimeOut)
     this.setState({ scanning: true })
   }
 
-  send = async (macAddress, serviceUUID, characteristic, payload, tries) => {
-    try {
-      await this.bluetooth.write(
-        macAddress,
-        serviceUUID,
-        characteristic,
-        payload,
-        30
-      )
-    } catch (error) {
-      tries--
-      if (tries > 0) {
-        return this.send(
-          macAddress,
-          serviceUUID,
-          characteristic,
-          payload,
-          tries
-        )
-      }
-      return Promise.reject(error)
-    }
-  }
-
-  receive = async (macAddress, serviceUUID, characteristic, tries) => {
-    try {
-      const answer = await this.bluetooth.read(
-        macAddress,
-        serviceUUID,
-        characteristic
-      )
-      return answer
-    } catch (error) {
-      tries--
-      if (tries > 0) {
-        return this.receive(macAddress, serviceUUID, characteristic, tries)
-      }
-      return Promise.reject(error)
-    }
-  }
-
   render() {
-    const { rubi_id } = this.props
+    const { onOutsideClick, rubi_id, visible } = this.props
     return (
-      <View style={styles.container}>
-        <Text style={styles.text}>¿Solicitar bicicleta #{rubi_id}?</Text>
-        {this.state.scanning && (
-          <ActivityIndicator size="large" color={colors.YO} />
-        )}
-        {!this.state.scanning && (
-          <TouchableOpacity
-            style={styles.buttonContainer}
-            onPress={this.onButtonPress}
-          >
-            <Text style={styles.buttonText}>Solicitar</Text>
-          </TouchableOpacity>
-        )}
-      </View>
+      <Modal
+        visible={visible}
+        animationType="fade"
+        transparent={true}
+        onRequestClose={onOutsideClick}
+      >
+        <TouchableWithoutFeedback onPress={onOutsideClick}>
+          <View style={styles.modalContentContainer}>
+            <View style={styles.modalContent}>
+              <Text style={styles.text}>¿Solicitar bicicleta #{rubi_id}?</Text>
+              {this.state.scanning && (
+                <ActivityIndicator size="large" color={colors.YO} />
+              )}
+              {!this.state.scanning && (
+                <TouchableOpacity
+                  style={styles.buttonContainer}
+                  onPress={this.onButtonPress}
+                >
+                  <Text style={styles.buttonText}>Solicitar</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
     )
   }
 }
 
 BluetoothWindow.propTypes = {
-  rubi_id: PropTypes.number.isRequired,
-  macAddress: PropTypes.string.isRequired,
   firstHandshake: PropTypes.array.isRequired,
+  macAddress: PropTypes.string.isRequired,
+  onOutsideClick: PropTypes.func.isRequired,
+  rubi_id: PropTypes.number.isRequired,
   secondHandshake: PropTypes.array.isRequired,
+  visible: PropTypes.bool.isRequired,
 }
 
 const styles = StyleSheet.create({
-  container: {
+  modalContentContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
     height: 150,
-    marginTop: 40,
-    marginLeft: 10,
-    marginRight: 10,
+    width: 300,
+    padding: 20,
     borderRadius: 15,
     borderColor: colors.PBK,
     borderWidth: 0.5,
