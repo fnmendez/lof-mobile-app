@@ -11,7 +11,22 @@ import {
 
 import colors from '../styles'
 
-const DeleteAccountModal = props => (
+const renderButtons = (button, index) => (
+  <TouchableOpacity
+    key={index}
+    style={{
+      ...styles.modalButtonContainer,
+      ...button.buttonStyle,
+    }}
+    onPress={button.onPress}
+  >
+    <Text style={{ ...styles.modalButtonText, ...button.textStyle }}>
+      {button.text}
+    </Text>
+  </TouchableOpacity>
+)
+
+const ConfirmationModal = props => (
   <Modal
     visible={props.visible}
     animationType="fade"
@@ -21,25 +36,19 @@ const DeleteAccountModal = props => (
     <TouchableWithoutFeedback onPress={props.onOutsideClick}>
       <View style={styles.modalContentContainer}>
         <View style={styles.modalContent}>
-          <Text style={styles.modalText}>
-            ¿Seguro que deseas eliminar tu cuenta?
-          </Text>
-          <TouchableOpacity
-            style={styles.modalDeleteButtonContainer}
-            onPress={props.onPress}
-          >
-            <Text style={styles.modalDeleteButtonText}>Eliminar</Text>
-          </TouchableOpacity>
+          <Text style={styles.modalText}>{props.message}</Text>
+          <>{props.buttons.map(renderButtons)}</>
         </View>
       </View>
     </TouchableWithoutFeedback>
   </Modal>
 )
 
-DeleteAccountModal.propTypes = {
+ConfirmationModal.propTypes = {
+  buttons: PropTypes.array.isRequired,
   visible: PropTypes.bool.isRequired,
+  message: PropTypes.string.isRequired,
   onOutsideClick: PropTypes.func.isRequired,
-  onPress: PropTypes.func.isRequired,
 }
 
 const styles = StyleSheet.create({
@@ -66,21 +75,19 @@ const styles = StyleSheet.create({
     color: colors.PW,
     textAlign: 'center',
   },
-  modalDeleteButtonText: {
+  modalButtonText: {
     textAlign: 'center',
-    color: colors.R,
     fontSize: 30,
     fontWeight: '700',
   },
-  modalDeleteButtonContainer: {
+  modalButtonContainer: {
     width: 180,
     height: 50,
     marginTop: 15,
     borderRadius: 8,
     justifyContent: 'center',
-    backgroundColor: colors.BK,
     paddingVertical: 10,
   },
 })
 
-export default DeleteAccountModal
+export default ConfirmationModal

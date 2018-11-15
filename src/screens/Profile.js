@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native'
 
-import { DeleteAccountModal, UserIcon, UserInfo } from '../components'
+import { ConfirmationModal, UserIcon, UserInfo } from '../components'
 import { destroy, getUser, logout } from '../actions/user'
 import colors from '../styles'
 
@@ -37,7 +37,14 @@ class Profile extends Component {
   }
 
   componentDidMount() {
+    this.navListener = this.props.navigation.addListener('didFocus', () => {
+      StatusBar.setBarStyle('light-content')
+    })
     this.props.getUser({ token: this.props.token })
+  }
+
+  componentWillUnmount() {
+    this.navListener.remove()
   }
 
   handleRefresh = () => {
@@ -72,16 +79,24 @@ class Profile extends Component {
             <RefreshControl
               refreshing={this.props.loading}
               onRefresh={this.handleRefresh}
+              tintColor={colors.YO}
             />
           }
           showsVerticalScrollIndicator={false}
           style={styles.scrollView}
         >
-          <StatusBar barStyle="light-content" />
-          <DeleteAccountModal
+          <ConfirmationModal
             visible={this.state.showDeleteModal}
             onOutsideClick={this.handleOutsideModalPressed}
-            onPress={this.handleDestroy}
+            message={'¿Seguro que deseas eliminar tu cuenta?'}
+            buttons={[
+              {
+                text: 'Eliminar',
+                buttonStyle: { backgroundColor: colors.BK },
+                textStyle: { color: colors.R },
+                onPress: this.handleDestroy,
+              },
+            ]}
           />
           <UserIcon mail={mail} />
           <UserInfo
@@ -116,6 +131,7 @@ Profile.propTypes = {
   loading: PropTypes.bool.isRequired,
   logout: PropTypes.func.isRequired,
   mail: PropTypes.string.isRequired,
+  navigation: PropTypes.object.isRequired,
   token: PropTypes.string.isRequired,
 }
 

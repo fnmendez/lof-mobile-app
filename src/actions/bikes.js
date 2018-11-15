@@ -2,7 +2,7 @@ import {
   GET_BIKES,
   REQUEST_BIKE,
   RETURN_BIKE,
-  GET_HISTORY,
+  GET_TRIPS,
 } from '../constants/bikes'
 
 export const getBikes = ({ latitude, longitude, token }) => (
@@ -35,8 +35,8 @@ export const returnBike = ({ tripId, token }) => (
     payload: api.returnBike({ tripId, token }),
   })
 
-export const getHistory = ({ token }) => (dispatch, getState, { api }) =>
+export const getTrips = ({ token }) => (dispatch, getState, { api }) =>
   dispatch({
-    type: GET_HISTORY,
-    payload: api.getHistory({ token }),
+    type: GET_TRIPS,
+    payload: api.getTrips({ token }),
   })

@@ -2,6 +2,9 @@ import _ from 'lodash/fp/object'
 import { REHYDRATE } from 'redux-persist/lib/constants'
 
 import {
+  CHECK_CONFIRMATION_PENDING,
+  CHECK_CONFIRMATION_FULFILLED,
+  CHECK_CONFIRMATION_REJECTED,
   GET_USER_PENDING,
   GET_USER_FULFILLED,
   GET_USER_REJECTED,
@@ -33,6 +36,15 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   const { type, payload } = action
   switch (type) {
+    case CHECK_CONFIRMATION_PENDING: {
+      return _.merge(state, { loading: true })
+    }
+    case CHECK_CONFIRMATION_FULFILLED: {
+      return _.merge(state, { ...payload, loading: false })
+    }
+    case CHECK_CONFIRMATION_REJECTED: {
+      return _.merge(state, { ...initialState, error: payload.message })
+    }
     case GET_USER_PENDING: {
       return _.merge(state, { loading: true })
     }

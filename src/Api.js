@@ -67,21 +67,17 @@ class Api {
   }
 
   requestBike = async ({ rubi_id, token }) => {
-    const response = await this.post(`/bikes/${rubi_id}/request`, {}, { token })
+    const response = await this.post(`/bikes/${rubi_id}/request`, {}, token)
     return response
   }
 
   returnBike = async ({ tripId, token }) => {
-    const response = await this.post(`/bikes/trips/${tripId}`, {}, { token })
+    const response = await this.post(`/bikes/trips/${tripId}`, {}, token)
     return response
   }
 
-  /* TRIPS */
-
-  getHistory = async ({ token }) => {
-    const response = await this.get('/bikes/trips', {
-      token,
-    })
+  getTrips = async ({ token }) => {
+    const response = await this.get('/bikes/trips', token)
     return response
   }
 }

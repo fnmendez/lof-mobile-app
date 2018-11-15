@@ -23,12 +23,13 @@ module.exports = {
   requestLockPayload: stringToHex(BLE_REQUEST_LOCK_PAYLOAD),
   // Mapbox
   MAPBOX_TOKEN,
+  secondsToUpdateBikesLocation: 10,
   mapboxConfig: {
     centerCoordinate: [-73.051, -36.825],
     logoEnabled: false,
-    zoomLevel: 13,
-    minZoomLevel: 2,
-    maxZoomLevel: 16,
+    zoomLevel: 12,
+    minZoomLevel: 6,
+    maxZoomLevel: 17,
     zoomEnabled: true,
     scrollEnabled: true,
     rotateEnabled: true,

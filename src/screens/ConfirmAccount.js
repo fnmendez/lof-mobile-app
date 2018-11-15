@@ -57,7 +57,7 @@ class ConfirmAccount extends Component {
           style={styles.backButtonContainer}
           onPress={this.handleReturn}
         >
-          <Text style={styles.buttonText}>Volver</Text>
+          <Text style={styles.buttonText}>Desconectarse</Text>
         </TouchableOpacity>
       </View>
     )
@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
   window: {
     backgroundColor: colors.DG,
     borderRadius: 15,
+    margin: 12,
   },
   text: {
     fontSize: 17,

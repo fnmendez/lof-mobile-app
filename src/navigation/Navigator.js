@@ -1,5 +1,6 @@
-/* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */
+/* eslint-disable react/display-name */
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react'
 import {
   createStackNavigator,
@@ -7,14 +8,18 @@ import {
 } from 'react-navigation'
 import AD from 'react-native-vector-icons/AntDesign'
 import MC from 'react-native-vector-icons/MaterialCommunityIcons'
+import FT from 'react-native-vector-icons/Feather'
 
 import {
-  Main,
-  Register,
-  ConfirmAccount,
   BikesMap,
+  ConfirmAccount,
+  FinishTripTutorial,
   History,
+  Main,
   Profile,
+  Register,
+  TripFinished,
+  TripWindow,
 } from '../screens/'
 import colors from '../styles'
 
@@ -76,7 +81,14 @@ const StackNavigator = createStackNavigator(
     Register: {
       screen: Register,
       navigationOptions: {
-        title: 'Registro',
+        title: null,
+        headerLeft: ({ onPress }) => (
+          <FT
+            name="chevron-left"
+            onPress={onPress}
+            style={{ marginLeft: 14, fontSize: 26, color: colors.W }}
+          />
+        ),
       },
     },
     ConfirmAccount: {
@@ -92,12 +104,46 @@ const StackNavigator = createStackNavigator(
         header: null,
       },
     },
+    TripWindow: {
+      screen: TripWindow,
+      navigationOptions: {
+        header: null,
+        title: 'Viaje actual',
+      },
+    },
+    FinishTripTutorial: {
+      screen: FinishTripTutorial,
+      navigationOptions: {
+        title: null,
+        headerLeft: ({ onPress }) => (
+          <FT
+            name="chevron-left"
+            onPress={onPress}
+            style={{ marginLeft: 14, fontSize: 26, color: colors.W }}
+          />
+        ),
+      },
+    },
+    TripFinished: {
+      screen: TripFinished,
+      navigationOptions: {
+        title: null,
+        headerLeft: ({ onPress }) => (
+          <FT
+            name="chevron-left"
+            onPress={onPress}
+            style={{ marginLeft: 14, fontSize: 26, color: colors.W }}
+          />
+        ),
+      },
+    },
   },
   // Options
   {
     navigationOptions: {
       headerStyle: {
         backgroundColor: colors.BK,
+        borderBottomWidth: 0,
       },
     },
   }

@@ -17,6 +17,7 @@ import {
 
 const initialState = {
   available: [],
+  currentTrip: null,
   trips: [],
   error: '',
   loading: false,
@@ -38,7 +39,11 @@ export default function reducer(state = initialState, action) {
       return _.merge(state, { loading: true })
     }
     case REQUEST_BIKE_FULFILLED: {
-      return _.merge(state, { ...payload, loading: false })
+      const { trip, bike } = payload
+      return _.merge(state, {
+        currentTrip: { ...trip, bike },
+        loading: false,
+      })
     }
     case REQUEST_BIKE_REJECTED: {
       return _.merge(state, { ...initialState, error: payload.message })
@@ -47,16 +52,18 @@ export default function reducer(state = initialState, action) {
       return _.merge(state, { loading: true })
     }
     case RETURN_BIKE_FULFILLED: {
-      return _.merge(state, { ...payload, loading: false })
+      const { trips } = payload
+      return _.merge(state, { currentTrip: null, loading: false, trips })
     }
     case RETURN_BIKE_REJECTED: {
-      return _.merge(state, { ...initialState, error: payload.message })
+      return _.merge(state, { error: payload.message })
     }
     case GET_TRIPS_PENDING: {
       return _.merge(state, { loading: true })
     }
     case GET_TRIPS_FULFILLED: {
-      return _.merge(state, { ...payload, loading: false })
+      const { trips } = payload
+      return _.merge(state, { loading: false, trips })
     }
     case GET_TRIPS_REJECTED: {
       return _.merge(state, { ...initialState, error: payload.message })

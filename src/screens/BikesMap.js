@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
+  Alert,
   Platform,
   StatusBar,
   StyleSheet,
@@ -9,32 +10,49 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
+import { NavigationEvents } from 'react-navigation'
 import Mapbox from '@mapbox/react-native-mapbox-gl'
 
 import { Bike, BluetoothWindow } from '../components'
-import { getBikes } from '../actions/bikes'
+import { getBikes, requestBike } from '../actions/bikes'
+import { now } from '../helpers/parseDate'
 import strToHexArr from '../helpers/stringToHex'
-import { MAPBOX_TOKEN, mapboxConfig } from '../constants'
+import {
+  MAPBOX_TOKEN,
+  mapboxConfig,
+  secondsToUpdateBikesLocation,
+} from '../constants'
 import colors from '../styles'
 
 Mapbox.setAccessToken(MAPBOX_TOKEN)
 
+const isAndroid = Platform.OS === 'android'
+
 const mapStateToProps = state => ({
-  token: state.user.token,
   bikes: state.bikes.available,
+  currentTrip: state.bikes.currentTrip,
+  token: state.user.token,
 })
 
 const mapDispatchToProps = {
   getBikes,
+  requestBike,
 }
 
 class BikesMap extends Component {
   // Initial state
   state = {
-    userLocation: null,
-    showBluetoothWindow: false,
     bikesFetched: false,
     selectedBike: {},
+    showBluetoothWindow: false,
+    userLocation: null,
+    updatedAt: null,
+  }
+
+  componentDidUpdate() {
+    if (this.props.currentTrip !== null && this.props.navigation.isFocused()) {
+      this.props.navigation.navigate('TripWindow')
+    }
   }
 
   onUserLocationUpdate = ({ coords }) => {
@@ -42,8 +60,24 @@ class BikesMap extends Component {
     this.setState({ userLocation: [longitude, latitude] })
     if (!this.state.bikesFetched) {
       this.props.getBikes({ latitude, longitude, token: this.props.token })
-      this.setState({ bikesFetched: true })
+      this.setState({ bikesFetched: true, updatedAt: now() })
     }
+  }
+
+  shouldUpdateBikesLocation = () => {
+    if (!this.state.updatedAt) return false
+    const timeDifference = now() - this.state.updatedAt
+    return timeDifference > secondsToUpdateBikesLocation
+  }
+
+  updateBikesLocation = () => {
+    const coords = this.state.userLocation
+    this.props.getBikes({
+      longitude: coords[0],
+      latitude: coords[1],
+      token: this.props.token,
+    })
+    this.setState({ updatedAt: now() })
   }
 
   onMapLongPress = () => {
@@ -58,9 +92,13 @@ class BikesMap extends Component {
   }
 
   hideBluetoothWindow = () => {
-    this.setState({
-      showBluetoothWindow: false,
-    })
+    this.setState({ showBluetoothWindow: false })
+  }
+
+  onBikeUnlocked = () => {
+    const { token } = this.props
+    const { rubi_id } = this.state.selectedBike
+    this.props.requestBike({ rubi_id, token })
   }
 
   onBikePress = bluetoothParams => {
@@ -85,21 +123,35 @@ class BikesMap extends Component {
     const { rubi_id, macAndroid, macIOS, hs1, hs2 } = this.state.selectedBike
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="light-content" />
-        {rubi_id &&
-          hs1 &&
-          hs2 && (
-            <BluetoothWindow
-              visible={this.state.showBluetoothWindow}
-              onOutsideClick={this.hideBluetoothWindow}
-              rubi_id={rubi_id}
-              macAddress={Platform.OS === 'ios' ? macIOS : macAndroid}
-              firstHandshake={strToHexArr(hs1)}
-              secondHandshake={strToHexArr(hs2)}
-            />
-          )}
+        <StatusBar barStyle="dark-content" />
+        <NavigationEvents
+          onDidFocus={() => {
+            StatusBar.setBarStyle('dark-content')
+            if (this.shouldUpdateBikesLocation()) {
+              this.updateBikesLocation()
+            }
+          }}
+          onWillBlur={() => this.hideBluetoothWindow()}
+        />
+        {rubi_id && hs1 && hs2 && (
+          <BluetoothWindow
+            visible={this.state.showBluetoothWindow}
+            requestOpenMode={true}
+            onOutsideClick={this.hideBluetoothWindow}
+            onActionFinished={this.onBikeUnlocked}
+            onActionError={() =>
+              Alert.alert(
+                'No se ha podido conectar. Asegúrate de encender tu Bluetooth y vuelve a intentarlo.'
+              )
+            }
+            rubi_id={rubi_id}
+            macAddress={isAndroid ? macAndroid : macIOS}
+            firstHandshake={strToHexArr(hs1)}
+            secondHandshake={strToHexArr(hs2)}
+          />
+        )}
         <Mapbox.MapView
-          ref={c => (this.map = c)}
+          ref={m => (this.map = m)}
           styleURL={Mapbox.StyleURL.Light}
           style={styles.container}
           showUserLocation={true}
@@ -116,7 +168,7 @@ class BikesMap extends Component {
               style={styles.button}
               onPress={this.onMapLongPress}
             >
-              <Text style={styles.buttonText}>Test</Text>
+              <Text style={styles.buttonText}>Centrar</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -126,8 +178,11 @@ class BikesMap extends Component {
 }
 
 BikesMap.propTypes = {
-  token: PropTypes.string.isRequired,
   bikes: PropTypes.array.isRequired,
+  currentBike: PropTypes.object,
+  currentTrip: PropTypes.object,
+  navigation: PropTypes.object.isRequired,
+  token: PropTypes.string.isRequired,
 }
 
 const styles = StyleSheet.create({
@@ -140,7 +195,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   testContainer: {
-    height: 30,
+    height: 0,
     alignItems: 'center',
     justifyContent: 'center',
   },

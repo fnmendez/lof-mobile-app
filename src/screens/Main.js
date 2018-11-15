@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import {
   KeyboardAvoidingView,
   Platform,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
@@ -19,6 +20,16 @@ const mapDispatchToProps = {
 }
 
 class MainScreen extends Component {
+  componentDidMount() {
+    this.navListener = this.props.navigation.addListener('didFocus', () => {
+      StatusBar.setBarStyle('light-content')
+    })
+  }
+
+  componentWillUnmount() {
+    this.navListener.remove()
+  }
+
   handleSubmit = async (values, bag) => {
     try {
       await this.props.login(values)
@@ -35,6 +46,7 @@ class MainScreen extends Component {
         style={styles.container}
         {...(Platform.OS === 'ios' ? { behavior: 'padding' } : null)}
       >
+        <StatusBar barStyle="light-content" />
         <Text style={styles.title}>LOF</Text>
         <Login handleSubmit={this.handleSubmit} />
         <View style={styles.textContainer}>
