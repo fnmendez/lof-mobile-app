@@ -1,0 +1,55 @@
+version: 2
+jobs:
+
+  linter:
+    working_directory: ~/Mobile
+    docker:
+      - image: circleci/node:10.10
+    steps:
+      - checkout
+
+      - restore_cache:
+          name: Restore Cache (yarn)
+          key: yarn-v1-{{ checksum "yarn.lock" }}-{{ arch }}
+
+      - restore_cache:
+          name: Restore Cache (node_modules)
+          key: node-v1-{{ checksum "package.json" }}-{{ arch }}
+
+      - run: yarn
+
+      - save_cache:
+          name: Save Cache (yarn)
+          key: yarn-v1-{{ checksum "yarn.lock" }}-{{ arch }}
+          paths:
+            - ~/.cache/yarn
+
+      - save_cache:
+          name: Save Cache (node_modules)
+          key: node-v1-{{ checksum "package.json" }}-{{ arch }}
+          paths:
+            - node_modules
+
+      - run: yarn lint
+
+  gitflow:
+    docker:
+      - image: circleci/node:10.10
+    steps:
+      - run:
+          name: Check valid branch name
+          command: |
+            invalid=1
+            if [[ $CIRCLE_BRANCH == 'master' ]]; then invalid=0; fi
+            if [[ $CIRCLE_BRANCH == 'f/'* ]]; then invalid=0; fi
+            if [[ $CIRCLE_BRANCH == 'h/'* ]]; then invalid=0; fi
+            if [[ $CIRCLE_BRANCH == 'docs/'* ]]; then invalid=0; fi
+            if [[ $invalid == 1 ]]; then exit 1; fi
+
+
+workflows:
+  version: 2
+  linter-gitflow:
+    jobs:
+      - linter
+      - gitflow

@@ -5,6 +5,8 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
+    "lint": "eslint ./src index.js",
+    "lint:fix": "eslint --fix ./src index.js",
     "sim": "yarn run android:emulator; yarn run ios:emulator",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
