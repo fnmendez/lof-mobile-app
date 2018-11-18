@@ -9,6 +9,7 @@ import MI from 'react-native-vector-icons/MaterialIcons'
 import isAndroid from '../helpers/platform'
 import parseDate, { minsAndSecs, now, toSeconds } from '../helpers/parseDate'
 import { dotsOnThousands } from '../helpers/parseCost'
+import { BASE_COST, EXTRA_COST } from '../constants'
 import colors from '../styles'
 
 class Variables extends PureComponent {
@@ -32,8 +33,9 @@ class Variables extends PureComponent {
 
   getCost = () => {
     const { totalSecs } = this.state
-    if (totalSecs < 1800) return 300
-    else return 300 + 100 * (1 + Math.floor((totalSecs - 1800) / 600))
+    if (totalSecs < 1800) return BASE_COST
+    else
+      return BASE_COST + EXTRA_COST * (1 + Math.floor((totalSecs - 1800) / 600))
   }
 
   render() {

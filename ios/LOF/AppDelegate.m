@@ -17,13 +17,13 @@
   NSURL *jsCodeLocation;
 
 #ifdef DEBUG
-  jsCodeLocation = [NSURL URLWithString:@"http://169.254.192.127:8080/index.bundle?platform=ios&dev=true"];
+  jsCodeLocation = [NSURL URLWithString:@"http://169.254.170.254:8080/index.bundle?platform=ios&dev=true"];
 #else
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 #endif
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
-                                                      moduleName:@"LOFMobileApp"
+                                                      moduleName:@"LOF"
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];

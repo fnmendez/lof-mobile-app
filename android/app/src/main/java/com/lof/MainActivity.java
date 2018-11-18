@@ -1,4 +1,4 @@
-package com.lofmobileapp;
+package com.lof;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "LOFMobileApp";
+        return "LOF";
     }
 }

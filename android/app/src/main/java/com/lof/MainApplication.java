@@ -1,4 +1,4 @@
-package com.lofmobileapp;
+package com.lof;
 
 import android.app.Application;
 

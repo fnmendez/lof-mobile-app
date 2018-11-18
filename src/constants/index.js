@@ -13,6 +13,9 @@ import stringToHex from '../helpers/stringToHex'
 module.exports = {
   // API
   API_URI: API_URI || 'http://localhost:3000',
+  // Trip Cost (just front-end)
+  BASE_COST: 200,
+  EXTRA_COST: 100,
   // Bluetooth
   scanTimeOut: 10,
   retrySendTimes: 12,
@@ -28,8 +31,8 @@ module.exports = {
     centerCoordinate: [-73.051, -36.825],
     logoEnabled: false,
     zoomLevel: 12,
-    minZoomLevel: 13,
-    maxZoomLevel: 17,
+    minZoomLevel: 11,
+    maxZoomLevel: 18,
     zoomEnabled: true,
     scrollEnabled: true,
     rotateEnabled: true,
