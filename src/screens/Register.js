@@ -2,15 +2,16 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
+  Image,
   KeyboardAvoidingView,
-  Platform,
   ScrollView,
   StyleSheet,
 } from 'react-native'
 
 import { SignUp } from '../components'
 import { signup } from '../actions/user'
-import colors from '../styles'
+import isAndroid from '../helpers/platform'
+import { mainContainerStyle, logoMedium } from '../styles'
 
 const mapStateToProps = state => ({
   loading: state.user.loading,
@@ -34,13 +35,18 @@ class Register extends Component {
     return (
       <KeyboardAvoidingView
         style={styles.topContainer}
-        {...(Platform.OS === 'ios' ? { behavior: 'padding' } : null)}
+        {...(!isAndroid ? { behavior: 'padding' } : null)}
       >
         <ScrollView
           style={styles.scrollView}
           contentContainerStyle={styles.contentContainer}
           centerContent={true}
+          showsVerticalScrollIndicator={false}
         >
+          <Image
+            source={require('../styles/logo/logos-03.png')}
+            style={logoMedium}
+          />
           <SignUp handleSubmit={this.handleSubmit} />
         </ScrollView>
       </KeyboardAvoidingView>
@@ -55,11 +61,7 @@ Register.propTypes = {
 
 const styles = StyleSheet.create({
   topContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: colors.BK,
-    justifyContent: 'center',
-    alignItems: 'center',
+    ...mainContainerStyle,
   },
   scrollView: {
     flex: 1,

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Text, StyleSheet, View } from 'react-native'
 
+import isAndroid from '../helpers/platform'
 import colors from '../styles'
 
 const UserInfo = props => {
@@ -37,19 +38,23 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   textContainer: {
-    backgroundColor: colors.BG,
+    backgroundColor: colors.White,
     paddingLeft: 20,
     justifyContent: 'center',
     height: 55,
-    marginTop: 2,
+    marginHorizontal: 35,
+    borderRadius: 15,
+    marginTop: 7,
   },
   label: {
-    color: colors.BK,
-    fontSize: 22,
+    color: colors.Mirage,
+    fontWeight: isAndroid ? '200' : '400',
+    fontSize: isAndroid ? 17 : 20,
   },
   text: {
-    color: colors.DG,
-    fontSize: 22,
+    color: colors.G,
+    fontWeight: isAndroid ? '200' : '400',
+    fontSize: isAndroid ? 17 : 20,
   },
 })
 

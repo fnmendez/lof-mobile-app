@@ -46,7 +46,7 @@ export default function reducer(state = initialState, action) {
       })
     }
     case REQUEST_BIKE_REJECTED: {
-      return _.merge(state, { ...initialState, error: payload.message })
+      return _.merge(state, { error: payload.message })
     }
     case RETURN_BIKE_PENDING: {
       return _.merge(state, { loading: true })

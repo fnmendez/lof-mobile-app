@@ -11,9 +11,9 @@ import {
   View,
 } from 'react-native'
 
-import { ConfirmationModal, UserIcon, UserInfo } from '../components'
+import { ConfirmationModal, ProfileHeader, UserInfo } from '../components'
 import { destroy, getUser, logout } from '../actions/user'
-import colors from '../styles'
+import colors, { buttonStyle } from '../styles'
 
 const mapStateToProps = state => ({
   balance: state.user.balance,
@@ -79,7 +79,7 @@ class Profile extends Component {
             <RefreshControl
               refreshing={this.props.loading}
               onRefresh={this.handleRefresh}
-              tintColor={colors.YO}
+              tintColor={colors.SeaBuckthorn}
             />
           }
           showsVerticalScrollIndicator={false}
@@ -92,13 +92,13 @@ class Profile extends Component {
             buttons={[
               {
                 text: 'Eliminar',
-                buttonStyle: { backgroundColor: colors.BK },
-                textStyle: { color: colors.R },
+                buttonStyle: { backgroundColor: colors.Mirage },
+                textStyle: { color: colors.White },
                 onPress: this.handleDestroy,
               },
             ]}
           />
-          <UserIcon mail={mail} />
+          <ProfileHeader mail={mail} />
           <UserInfo
             firstName={firstName}
             lastName={lastName}
@@ -140,12 +140,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.BK,
   },
   scrollView: {
     flex: 1,
     alignSelf: 'stretch',
-    backgroundColor: colors.BK,
+    backgroundColor: colors.PuertoRico,
   },
   contentContainer: {
     alignItems: 'center',
@@ -153,26 +152,16 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   logoutButtonContainer: {
-    width: 180,
-    height: 50,
-    borderRadius: 8,
-    justifyContent: 'center',
-    backgroundColor: colors.DG,
-    paddingVertical: 10,
+    ...buttonStyle,
+    backgroundColor: colors.Mirage,
   },
   deleteButtonContainer: {
-    width: 180,
-    height: 50,
-    marginTop: 15,
-    borderRadius: 8,
-    justifyContent: 'center',
-    backgroundColor: colors.R,
-    paddingVertical: 10,
-    marginBottom: 50,
+    ...buttonStyle,
+    backgroundColor: colors.Punch,
   },
   buttonText: {
     textAlign: 'center',
-    color: colors.W,
+    color: colors.White,
     fontSize: 20,
     fontWeight: '900',
   },

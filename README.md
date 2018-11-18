@@ -1,5 +1,6 @@
 # LOF Mobile App
 
+[![circleB]][circleL]
 [![prettierB]][prettierL]
 [![commitsB]][commitsL]
 
@@ -43,3 +44,6 @@
 
 [prettierB]:https://img.shields.io/badge/code%20style-prettier-orange.svg
 [prettierL]:https://github.com/prettier/prettier
+
+[circleB]:https://circleci.com/gh/fnmendez/lof-mobile-app/tree/master.svg?style=svg&circle-token=fde5558956d562d61fb561f734c8e01b71dfcc78
+[circleL]:https://circleci.com/gh/fnmendez/lof-mobile-app/tree/master

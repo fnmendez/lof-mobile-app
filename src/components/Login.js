@@ -10,6 +10,7 @@ import {
 import { Formik } from 'formik'
 
 import Input from './Input'
+import isAndroid from '../helpers/platform'
 import { LoginSchema } from '../helpers/validation'
 import colors from '../styles'
 
@@ -43,13 +44,12 @@ class Login extends Component {
               value={values.mail}
               autoCorrect={false}
               returnKeyType="go"
-              placeholderTextColor={colors.PBK}
+              placeholderTextColor={colors.BG}
               onChange={setFieldValue}
               onTouch={setFieldTouched}
               onSubmitEditing={handleSubmit}
               name="mail"
               keyboardType="email-address"
-              error={touched.mail && errors.mail}
             />
             <Input
               label="Contraseña"
@@ -57,19 +57,24 @@ class Login extends Component {
               value={values.password}
               autoCorrect={false}
               returnKeyType="go"
-              placeholderTextColor={colors.PBK}
+              placeholderTextColor={colors.BG}
               onChange={setFieldValue}
               onTouch={setFieldTouched}
               onSubmitEditing={handleSubmit}
               name="password"
-              error={touched.password && errors.password}
               secureTextEntry={true}
             />
+            {!!touched.mail && errors.mail && (
+              <Text style={styles.error}>{errors.mail}</Text>
+            )}
+            {!!touched.password && errors.password && (
+              <Text style={styles.error}>{errors.password}</Text>
+            )}
             {!!this.props.error && (
               <Text style={styles.error}>{this.props.error}</Text>
             )}
             {this.props.loading && (
-              <ActivityIndicator size="large" color={colors.YO} />
+              <ActivityIndicator size="large" color={colors.SeaBuckthorn} />
             )}
             {!this.props.loading && (
               <TouchableOpacity
@@ -94,22 +99,22 @@ Login.propTypes = {
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    width: 250,
+    width: isAndroid ? 270 : 250,
     marginTop: 10,
     borderRadius: 8,
-    backgroundColor: colors.B,
+    backgroundColor: colors.Mirage,
     paddingVertical: 10,
   },
   buttonText: {
     textAlign: 'center',
-    color: colors.W,
+    color: colors.White,
     fontWeight: '700',
   },
   error: {
     marginTop: 1,
-    marginBottom: 12,
+    marginBottom: 6,
     fontSize: 14,
-    color: colors.R,
+    color: colors.Punch,
   },
 })
 

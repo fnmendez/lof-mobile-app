@@ -8,11 +8,12 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View,
 } from 'react-native'
+import MI from 'react-native-vector-icons/MaterialIcons'
 
 import { bleManager } from '../App'
+import { UnlockTutorial } from '../components'
 import {
   characteristicUUID,
   getInfoPayload,
@@ -21,8 +22,9 @@ import {
   serviceUUID,
   tries,
 } from '../constants'
+import isAndroid from '../helpers/platform'
 import retry from '../helpers/retryFunction'
-import colors from '../styles'
+import colors, { buttonStyle } from '../styles'
 
 const BleManagerModule = NativeModules.BleManager
 const bleManagerEmitter = new NativeEventEmitter(BleManagerModule)
@@ -33,6 +35,7 @@ class BluetoothWindow extends Component {
     // Initial state
     this.state = {
       processing: false,
+      error: '',
     }
     // Reference BleManager Singleton
     this.bluetooth = bleManager
@@ -149,7 +152,14 @@ class BluetoothWindow extends Component {
      * This usually means that the user has not locked the bike
      * and he is trying to finish the trip.
      */
-    this.props.onActionError()
+    if (this.props.onActionError) {
+      this.props.onActionError()
+    } else {
+      this.setState({
+        error:
+          'No se ha podido conectar. Asegúrate de tener encendido tu Bluetooth e intenta de nuevo.',
+      })
+    }
   }
 
   onActionFinished = () => {
@@ -159,7 +169,6 @@ class BluetoothWindow extends Component {
      * If the call is from TripWindow component, then
      * the trip is going to be finished
      */
-
     this.removeListeners()
     this.setState({ processing: false })
     this.props.onActionFinished()
@@ -175,7 +184,6 @@ class BluetoothWindow extends Component {
     this.setListeners()
     const cp = await this.bluetooth.getConnectedPeripherals([serviceUUID])
     if (cp.length) {
-      this.bluetooth.stopScan()
       if (requestOpenMode) {
         return this.requestOpen()
       } else {
@@ -188,6 +196,12 @@ class BluetoothWindow extends Component {
 
   render() {
     const { onOutsideClick, requestOpenMode, rubi_id, visible } = this.props
+    let contentStyle = styles.modalContent
+    if (requestOpenMode) {
+      contentStyle = { ...contentStyle, ...styles.extraHeightOnRequestOpenMode }
+    } else {
+      contentStyle = { ...contentStyle, ...styles.tripModeStyle }
+    }
     return (
       <Modal
         visible={visible}
@@ -195,34 +209,50 @@ class BluetoothWindow extends Component {
         transparent={true}
         onRequestClose={onOutsideClick}
       >
-        <TouchableWithoutFeedback onPress={onOutsideClick}>
-          <View style={styles.modalContentContainer}>
-            <View style={styles.modalContent}>
-              <Text style={styles.text}>
-                {requestOpenMode
-                  ? `¿Solicitar bicicleta #${rubi_id}?`
-                  : '¿Seguro que deseas terminar tu viaje?'}
-              </Text>
-              {this.state.processing && (
-                <ActivityIndicator size="large" color={colors.YO} />
-              )}
-              {!this.state.processing && (
-                <TouchableOpacity
-                  style={styles.buttonContainer}
-                  onPress={this.onButtonPressed}
-                >
-                  <Text style={styles.buttonText}>Solicitar</Text>
-                </TouchableOpacity>
-              )}
+        <View style={styles.modalContentContainer}>
+          <View style={contentStyle}>
+            <View style={styles.closeButton}>
+              <TouchableOpacity onPress={onOutsideClick}>
+                <MI name="close" color={colors.G} size={16} />
+              </TouchableOpacity>
             </View>
+            {requestOpenMode && <UnlockTutorial />}
+            <Text style={styles.text}>
+              {requestOpenMode
+                ? `¿Solicitar bicicleta nº${rubi_id}?`
+                : '¿Seguro que deseas terminar tu viaje?'}
+            </Text>
+            {this.state.processing && (
+              <ActivityIndicator size="large" color={colors.SeaBuckthorn} />
+            )}
+            {!!this.state.error && (
+              <Text style={styles.error}>{this.state.error}</Text>
+            )}
+            {!this.state.processing && (
+              <TouchableOpacity
+                style={styles.buttonContainer}
+                onPress={
+                  this.props.blocked
+                    ? () =>
+                        this.setState({
+                          error: 'Primero debes cargar saldo',
+                        })
+                    : this.onButtonPressed
+                }
+              >
+                <Text style={styles.buttonText}>Solicitar</Text>
+              </TouchableOpacity>
+            )}
           </View>
-        </TouchableWithoutFeedback>
+        </View>
       </Modal>
     )
   }
 }
 
 BluetoothWindow.propTypes = {
+  blocked: PropTypes.bool,
+  error: PropTypes.string,
   firstHandshake: PropTypes.array.isRequired,
   macAddress: PropTypes.string.isRequired,
   onActionError: PropTypes.func,
@@ -242,30 +272,46 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     height: 150,
-    width: 300,
+    width: isAndroid ? 300 : 280,
     padding: 20,
     borderRadius: 15,
-    borderColor: colors.PBK,
-    borderWidth: 0.5,
-    backgroundColor: colors.PW,
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    zIndex: 1000,
+    backgroundColor: colors.PuertoRico,
+  },
+  tripModeStyle: {
+    backgroundColor: colors.Punch,
+  },
+  extraHeightOnRequestOpenMode: {
+    height: 450,
   },
   text: {
-    fontSize: 20,
-    color: colors.BK,
+    fontSize: isAndroid ? 18 : 21,
+    fontWeight: isAndroid ? '500' : '600',
+    alignItems: 'center',
+    color: colors.White,
+  },
+  error: {
+    fontSize: isAndroid ? 14 : 18,
+    marginTop: 8,
+    textAlign: 'center',
+    color: colors.Punch,
   },
   buttonContainer: {
-    width: 250,
-    borderRadius: 8,
-    backgroundColor: colors.B,
-    paddingVertical: 10,
+    ...buttonStyle,
+    width: isAndroid ? 240 : 210,
+    backgroundColor: colors.Mirage,
   },
   buttonText: {
     textAlign: 'center',
-    color: colors.W,
+    color: colors.White,
     fontWeight: '700',
+  },
+  closeButton: {
+    alignSelf: 'flex-end',
+    marginTop: -15,
+    marginRight: -14,
+    padding: 5,
   },
 })
 

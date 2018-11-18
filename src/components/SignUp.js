@@ -11,7 +11,7 @@ import { Formik } from 'formik'
 
 import { RegisterSchema } from '../helpers/validation'
 import Input from './Input'
-import colors from '../styles'
+import colors, { buttonStyle } from '../styles'
 
 const mapStateToProps = state => ({
   error: state.user.error,
@@ -46,7 +46,7 @@ class SignUp extends Component {
               value={values.firstName}
               autoCorrect={false}
               returnKeyType="go"
-              placeholderTextColor={colors.PBK}
+              placeholderTextColor={colors.BG}
               onChange={setFieldValue}
               onTouch={setFieldTouched}
               onSubmitEditing={handleSubmit}
@@ -59,7 +59,7 @@ class SignUp extends Component {
               value={values.lastName}
               autoCorrect={false}
               returnKeyType="go"
-              placeholderTextColor={colors.PBK}
+              placeholderTextColor={colors.BG}
               onChange={setFieldValue}
               onTouch={setFieldTouched}
               onSubmitEditing={handleSubmit}
@@ -72,7 +72,7 @@ class SignUp extends Component {
               value={values.mail}
               autoCorrect={false}
               returnKeyType="go"
-              placeholderTextColor={colors.PBK}
+              placeholderTextColor={colors.BG}
               onChange={setFieldValue}
               onTouch={setFieldTouched}
               onSubmitEditing={handleSubmit}
@@ -86,7 +86,7 @@ class SignUp extends Component {
               value={values.password}
               autoCorrect={false}
               returnKeyType="go"
-              placeholderTextColor={colors.PBK}
+              placeholderTextColor={colors.BG}
               onChange={setFieldValue}
               onTouch={setFieldTouched}
               onSubmitEditing={handleSubmit}
@@ -100,7 +100,7 @@ class SignUp extends Component {
               value={values.confirmPassword}
               autoCorrect={false}
               returnKeyType="go"
-              placeholderTextColor={colors.PBK}
+              placeholderTextColor={colors.BG}
               onChange={setFieldValue}
               onTouch={setFieldTouched}
               onSubmitEditing={handleSubmit}
@@ -112,7 +112,7 @@ class SignUp extends Component {
               <Text style={styles.error}>{this.props.error}</Text>
             )}
             {this.props.loading && (
-              <ActivityIndicator size="large" color={colors.YO} />
+              <ActivityIndicator size="large" color={colors.SeaBuckthorn} />
             )}
             {!this.props.loading && (
               <TouchableOpacity
@@ -137,15 +137,12 @@ SignUp.propTypes = {
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    width: 250,
-    marginTop: 20,
-    borderRadius: 8,
-    backgroundColor: colors.B,
-    paddingVertical: 10,
+    ...buttonStyle,
+    backgroundColor: colors.Mirage,
   },
   buttonText: {
     textAlign: 'center',
-    color: colors.W,
+    color: colors.White,
     fontWeight: '700',
   },
   error: {

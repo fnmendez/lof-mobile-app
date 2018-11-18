@@ -6,14 +6,14 @@ import {
   createStackNavigator,
   createBottomTabNavigator,
 } from 'react-navigation'
-import AD from 'react-native-vector-icons/AntDesign'
-import MC from 'react-native-vector-icons/MaterialCommunityIcons'
+import FA from 'react-native-vector-icons/FontAwesome'
 import FT from 'react-native-vector-icons/Feather'
+import MC from 'react-native-vector-icons/MaterialCommunityIcons'
+import MI from 'react-native-vector-icons/MaterialIcons'
 
 import {
   BikesMap,
   ConfirmAccount,
-  FinishTripTutorial,
   History,
   Main,
   Profile,
@@ -31,7 +31,7 @@ const Tabs = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: 'Mapa',
         tabBarIcon: ({ tintColor }) => (
-          <MC name="map-search" color={tintColor} size={24} />
+          <FA name="map" color={tintColor} size={26} />
         ),
       },
     },
@@ -40,7 +40,7 @@ const Tabs = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: 'Historial',
         tabBarIcon: ({ tintColor }) => (
-          <MC name="history" color={tintColor} size={24} />
+          <MC name="history" color={tintColor} size={32} />
         ),
       },
     },
@@ -49,7 +49,7 @@ const Tabs = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: 'Perfil',
         tabBarIcon: ({ tintColor }) => (
-          <AD name="user" color={tintColor} size={24} />
+          <MI name="person" color={tintColor} size={42} />
         ),
       },
     },
@@ -60,9 +60,9 @@ const Tabs = createBottomTabNavigator(
     order: ['History', 'BikesMap', 'Profile'],
     tabBarOptions: {
       showLabel: false,
-      tintColor: colors.DB,
+      activeTintColor: colors.PuertoRico,
       style: {
-        backgroundColor: colors.PBK,
+        backgroundColor: colors.Mirage,
       },
     },
   }
@@ -86,7 +86,7 @@ const StackNavigator = createStackNavigator(
           <FT
             name="chevron-left"
             onPress={onPress}
-            style={{ marginLeft: 14, fontSize: 26, color: colors.W }}
+            style={{ marginLeft: 14, fontSize: 26, color: colors.White }}
           />
         ),
       },
@@ -111,19 +111,6 @@ const StackNavigator = createStackNavigator(
         title: 'Viaje actual',
       },
     },
-    FinishTripTutorial: {
-      screen: FinishTripTutorial,
-      navigationOptions: {
-        title: null,
-        headerLeft: ({ onPress }) => (
-          <FT
-            name="chevron-left"
-            onPress={onPress}
-            style={{ marginLeft: 14, fontSize: 26, color: colors.W }}
-          />
-        ),
-      },
-    },
     TripFinished: {
       screen: TripFinished,
       navigationOptions: {
@@ -132,7 +119,7 @@ const StackNavigator = createStackNavigator(
           <FT
             name="chevron-left"
             onPress={onPress}
-            style={{ marginLeft: 14, fontSize: 26, color: colors.W }}
+            style={{ marginLeft: 14, fontSize: 26, color: colors.White }}
           />
         ),
       },
@@ -142,8 +129,9 @@ const StackNavigator = createStackNavigator(
   {
     navigationOptions: {
       headerStyle: {
-        backgroundColor: colors.BK,
+        backgroundColor: colors.PuertoRico,
         borderBottomWidth: 0,
+        elevation: 0,
       },
     },
   }

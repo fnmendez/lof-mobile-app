@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 
+import isAndroid from '../helpers/platform'
 import colors from '../styles'
 
 class Input extends PureComponent {
@@ -41,20 +42,19 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    width: 300,
-    backgroundColor: colors.BG,
+    width: isAndroid ? 270 : 250,
+    backgroundColor: colors.White,
     borderRadius: 4,
     marginBottom: 5,
-    color: colors.BK,
+    color: colors.G,
     fontWeight: '500',
     paddingHorizontal: 10,
   },
   error: {
     marginTop: 1,
     marginBottom: 12,
-    fontStyle: 'italic',
     fontSize: 14,
-    color: colors.YO,
+    color: colors.Punch,
   },
 })
 

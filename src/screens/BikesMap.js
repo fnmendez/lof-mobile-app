@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
-  Alert,
   Platform,
   StatusBar,
   StyleSheet,
@@ -32,6 +31,7 @@ const mapStateToProps = state => ({
   bikes: state.bikes.available,
   currentTrip: state.bikes.currentTrip,
   token: state.user.token,
+  userBalance: state.user.balance,
 })
 
 const mapDispatchToProps = {
@@ -59,6 +59,7 @@ class BikesMap extends Component {
     const { longitude, latitude } = coords
     this.setState({ userLocation: [longitude, latitude] })
     if (!this.state.bikesFetched) {
+      this.onMapLongPress()
       this.props.getBikes({ latitude, longitude, token: this.props.token })
       this.setState({ bikesFetched: true, updatedAt: now() })
     }
@@ -92,7 +93,7 @@ class BikesMap extends Component {
   }
 
   hideBluetoothWindow = () => {
-    this.setState({ showBluetoothWindow: false })
+    this.setState({ showBluetoothWindow: false, selectedBike: {} })
   }
 
   onBikeUnlocked = () => {
@@ -111,6 +112,9 @@ class BikesMap extends Component {
       <Bike
         key={rubi_id}
         rubi_id={rubi_id}
+        selected={
+          this.state.selectedBike && rubi_id === this.state.selectedBike.rubi_id
+        }
         coordinates={coordinates}
         onPress={() =>
           this.onBikePress({ rubi_id, macAndroid, macIOS, hs1, hs2 })
@@ -127,6 +131,7 @@ class BikesMap extends Component {
         <NavigationEvents
           onDidFocus={() => {
             StatusBar.setBarStyle('dark-content')
+            this.onMapLongPress()
             if (this.shouldUpdateBikesLocation()) {
               this.updateBikesLocation()
             }
@@ -139,11 +144,7 @@ class BikesMap extends Component {
             requestOpenMode={true}
             onOutsideClick={this.hideBluetoothWindow}
             onActionFinished={this.onBikeUnlocked}
-            onActionError={() =>
-              Alert.alert(
-                'No se ha podido conectar. Asegúrate de encender tu Bluetooth y vuelve a intentarlo.'
-              )
-            }
+            blocked={this.props.userBalance <= 0}
             rubi_id={rubi_id}
             macAddress={isAndroid ? macAndroid : macIOS}
             firstHandshake={strToHexArr(hs1)}

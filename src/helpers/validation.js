@@ -5,7 +5,7 @@ const firstName = Yup.string('Ingresa un nombre válido')
   .min(2, 'Ingresa un nombre de al menos largo 2')
   .max(14, 'Ingresa un nombre de a lo más largo 14')
   .matches(
-    /^[A-Z][a-z]+$/,
+    /^[A-ZÀÁÈÉÍÓÚÇÑ][a-zàáèéíóúçñ'-]+$/,
     'Debe empezar por mayúscula y luego solo minúsculas'
   )
 const lastName = Yup.string('Ingresa un apellido válido')
@@ -13,7 +13,7 @@ const lastName = Yup.string('Ingresa un apellido válido')
   .min(2, 'Ingresa un apellido de al menos largo 2')
   .max(14, 'Ingresa un apellido de a lo más largo 14')
   .matches(
-    /^[A-Z][a-z]+$/,
+    /^[A-ZÀÁÈÉÍÓÚÇÑ][a-zàáèéíóúçñ'-]+$/,
     'Debe empezar por mayúscula y luego solo minúsculas'
   )
 const mail = Yup.string()

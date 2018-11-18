@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
+  Image,
   KeyboardAvoidingView,
-  Platform,
+  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -13,7 +14,8 @@ import {
 
 import { Login } from '../components'
 import { login } from '../actions/user'
-import colors from '../styles'
+import isAndroid from '../helpers/platform'
+import colors, { mainContainerStyle, logoMedium } from '../styles'
 
 const mapDispatchToProps = {
   login,
@@ -44,19 +46,29 @@ class MainScreen extends Component {
     return (
       <KeyboardAvoidingView
         style={styles.container}
-        {...(Platform.OS === 'ios' ? { behavior: 'padding' } : null)}
+        {...(isAndroid ? null : { behavior: 'padding' })}
       >
         <StatusBar barStyle="light-content" />
-        <Text style={styles.title}>LOF</Text>
-        <Login handleSubmit={this.handleSubmit} />
-        <View style={styles.textContainer}>
-          <Text style={styles.text}>¿No tienes cuenta? Crea una </Text>
-          <TouchableWithoutFeedback onPress={() => navigate('Register')}>
-            <View style={styles.linkContainer}>
-              <Text style={styles.link}>aquí</Text>
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.contentContainer}
+          centerContent={true}
+          showsVerticalScrollIndicator={false}
+        >
+          <Image
+            source={require('../styles/logo/logos-03.png')}
+            style={logoMedium}
+          />
+          <Login handleSubmit={this.handleSubmit} />
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>¿No tienes cuenta? Crea una </Text>
+            <TouchableWithoutFeedback onPress={() => navigate('Register')}>
+              <View style={styles.linkContainer}>
+                <Text style={styles.link}>aquí</Text>
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        </ScrollView>
       </KeyboardAvoidingView>
     )
   }
@@ -69,16 +81,15 @@ MainScreen.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: colors.BK,
+    ...mainContainerStyle,
   },
-  title: {
-    fontSize: 50,
-    color: colors.W,
-    marginBottom: 10,
+  scrollView: {
+    flex: 1,
+  },
+  contentContainer: {
+    alignItems: 'center',
+    paddingTop: isAndroid ? 100 : 0,
+    paddingBottom: isAndroid ? 30 : 0,
   },
   textContainer: {
     flexDirection: 'row',
@@ -87,7 +98,7 @@ const styles = StyleSheet.create({
     marginLeft: 25,
   },
   text: {
-    color: colors.W,
+    color: colors.Mirage,
   },
   linkContainer: {
     height: 35,
@@ -95,7 +106,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   link: {
-    color: colors.B,
+    color: colors.Mirage,
+    fontWeight: '900',
   },
 })
 

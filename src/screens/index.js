@@ -1,7 +1,6 @@
 export { default as Main } from './Main'
 export { default as Register } from './Register'
 export { default as ConfirmAccount } from './ConfirmAccount'
-export { default as FinishTripTutorial } from './FinishTripTutorial'
 export { default as BikesMap } from './BikesMap'
 export { default as History } from './History'
 export { default as Profile } from './Profile'

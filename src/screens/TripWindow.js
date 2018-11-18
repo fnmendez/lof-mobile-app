@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
   ActivityIndicator,
+  Image,
   Platform,
   StatusBar,
   StyleSheet,
@@ -11,10 +12,11 @@ import {
   View,
 } from 'react-native'
 
-import { BluetoothWindow, TripInfo } from '../components'
+import { BluetoothWindow, LockTutorial, TripInfo } from '../components'
 import { returnBike } from '../actions/bikes'
+import isAndroid from '../helpers/platform'
 import strToHexArr from '../helpers/stringToHex'
-import colors from '../styles'
+import colors, { logoSmall, mainContainerStyle } from '../styles'
 
 const mapStateToProps = state => ({
   currentTrip: state.bikes.currentTrip,
@@ -29,8 +31,9 @@ const mapDispatchToProps = {
 class TripWindow extends Component {
   // Initial state
   state = {
-    showBluetoothWindow: false,
     message: '',
+    showBluetoothWindow: false,
+    showLockTutorial: false,
   }
 
   componentDidMount() {
@@ -63,9 +66,12 @@ class TripWindow extends Component {
     })
   }
 
-  showFinishTripTutorial = () => {
-    this.setState({ message: '' })
-    this.props.navigation.navigate('FinishTripTutorial')
+  showLockTutorial = () => {
+    this.setState({ message: '', showLockTutorial: true })
+  }
+
+  hideLockTutorial = () => {
+    this.setState({ showLockTutorial: false })
   }
 
   onUnlockError = () => {
@@ -91,6 +97,14 @@ class TripWindow extends Component {
             secondHandshake={strToHexArr(hs2)}
           />
         )}
+        <LockTutorial
+          visible={this.state.showLockTutorial}
+          onOutsideClick={this.hideLockTutorial}
+        />
+        <Image
+          source={require('../styles/logo/logos-02.png')}
+          style={logoSmall}
+        />
         <Text style={styles.title}>Tu viaje actual</Text>
         {this.props.currentTrip && (
           <TripInfo
@@ -99,6 +113,12 @@ class TripWindow extends Component {
           />
         )}
         <Text style={styles.message}>{this.state.message}</Text>
+        <TouchableOpacity
+          style={styles.tutorialButtonContainer}
+          onPress={this.showLockTutorial}
+        >
+          <Text style={styles.buttonText}>Cómo termino mi viaje</Text>
+        </TouchableOpacity>
         {!this.props.loading && (
           <TouchableOpacity
             style={styles.finishTripButtonContainer}
@@ -107,14 +127,8 @@ class TripWindow extends Component {
             <Text style={styles.buttonText}>Terminar viaje</Text>
           </TouchableOpacity>
         )}
-        <TouchableOpacity
-          style={styles.tutorialButtonContainer}
-          onPress={this.showFinishTripTutorial}
-        >
-          <Text style={styles.buttonText}>Cómo terminar mi viaje</Text>
-        </TouchableOpacity>
         {this.props.loading && (
-          <ActivityIndicator size="large" color={colors.YO} />
+          <ActivityIndicator size="large" color={colors.SeaBuckthorn} />
         )}
       </View>
     )
@@ -131,37 +145,35 @@ TripWindow.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: colors.BK,
+    ...mainContainerStyle,
   },
   title: {
-    fontSize: 25,
+    fontSize: isAndroid ? 25 : 30,
     textAlign: 'left',
-    color: colors.W,
+    marginTop: 20,
+    color: colors.White,
   },
   message: {
     fontSize: 20,
-    color: colors.YO,
+    color: colors.Punch,
     marginBottom: 10,
   },
   finishTripButtonContainer: {
     width: 250,
     borderRadius: 8,
-    backgroundColor: colors.B,
+    backgroundColor: colors.Punch,
     paddingVertical: 10,
-    marginBottom: 10,
   },
   tutorialButtonContainer: {
     width: 250,
     borderRadius: 8,
-    backgroundColor: colors.GN,
+    backgroundColor: colors.LilacBush,
     paddingVertical: 10,
+    marginBottom: 10,
   },
   buttonText: {
     textAlign: 'center',
-    color: colors.W,
+    color: colors.White,
     fontWeight: '700',
   },
 })

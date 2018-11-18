@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { StatusBar, StyleSheet, Text, View } from 'react-native'
+import { Image, StatusBar, StyleSheet, Text, View } from 'react-native'
 import PropTypes from 'prop-types'
 
-import colors from '../styles'
+import colors, { mainContainerStyle, logoLarge } from '../styles'
 
 class TripFinished extends Component {
   componentDidMount() {
@@ -17,8 +17,14 @@ class TripFinished extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.text}>¡Viaje Finalizado!</Text>
+      <View style={styles.topContainer}>
+        <View style={styles.container}>
+          <Image
+            source={require('../styles/logo/logos-01.png')}
+            style={logoLarge}
+          />
+          <Text style={styles.text}>¡Viaje Finalizado!</Text>
+        </View>
       </View>
     )
   }
@@ -29,16 +35,20 @@ TripFinished.propTypes = {
 }
 
 const styles = StyleSheet.create({
+  topContainer: {
+    ...mainContainerStyle,
+  },
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.BG,
+    justifyContent: 'center',
+    paddingBottom: 160,
   },
   text: {
-    fontSize: 20,
+    color: colors.White,
+    fontSize: 30,
+    marginTop: -60,
     textAlign: 'center',
-    margin: 10,
   },
 })
 

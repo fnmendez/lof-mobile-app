@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {
   ActivityIndicator,
+  Image,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -10,7 +11,8 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { checkConfirmation, logout } from '../actions/user'
-import colors from '../styles'
+import isAndroid from '../helpers/platform'
+import colors, { logoSmall, buttonStyle } from '../styles'
 
 const mapStateToProps = state => ({
   mail: state.user.mail,
@@ -35,6 +37,10 @@ class ConfirmAccount extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Image
+          source={require('../styles/logo/logos-02.png')}
+          style={logoSmall}
+        />
         <View style={styles.window}>
           <Text style={styles.text}>
             {`Se ha enviado un correo a ${
@@ -43,7 +49,7 @@ class ConfirmAccount extends Component {
           </Text>
         </View>
         {this.props.loading && (
-          <ActivityIndicator size="large" color={colors.YO} />
+          <ActivityIndicator size="large" color={colors.SeaBuckthorn} />
         )}
         {!this.props.loading && (
           <TouchableOpacity
@@ -78,37 +84,38 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.BK,
+    backgroundColor: colors.PuertoRico,
+    paddingBottom: 30,
   },
   window: {
-    backgroundColor: colors.DG,
+    width: isAndroid ? 290 : 270,
+    backgroundColor: colors.White,
     borderRadius: 15,
     margin: 12,
+    marginTop: 32,
+    padding: 8,
   },
   text: {
-    fontSize: 17,
+    fontSize: isAndroid ? 14 : 16,
     textAlign: 'center',
     margin: 10,
-    fontWeight: '500',
-    color: colors.W,
+    fontWeight: isAndroid ? '200' : '500',
+    color: colors.Mirage,
   },
   buttonContainer: {
-    marginTop: 15,
-    width: 250,
-    borderRadius: 8,
-    backgroundColor: colors.B,
-    paddingVertical: 10,
+    ...buttonStyle,
+    backgroundColor: colors.Mirage,
   },
   backButtonContainer: {
     marginTop: 15,
-    width: 250,
+    width: isAndroid ? 270 : 250,
     borderRadius: 8,
-    backgroundColor: colors.G,
+    backgroundColor: colors.BG,
     paddingVertical: 10,
   },
   buttonText: {
     textAlign: 'center',
-    color: colors.W,
+    color: colors.White,
     fontWeight: '700',
   },
 })

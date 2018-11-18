@@ -14,7 +14,7 @@ module.exports = {
   // API
   API_URI: API_URI || 'http://localhost:3000',
   // Bluetooth
-  scanTimeOut: 6,
+  scanTimeOut: 10,
   retrySendTimes: 12,
   serviceUUID: BLE_SERVICE_UUID,
   characteristicUUID: BLE_CHARACTERISTIC_UUID,
@@ -28,7 +28,7 @@ module.exports = {
     centerCoordinate: [-73.051, -36.825],
     logoEnabled: false,
     zoomLevel: 12,
-    minZoomLevel: 6,
+    minZoomLevel: 13,
     maxZoomLevel: 17,
     zoomEnabled: true,
     scrollEnabled: true,

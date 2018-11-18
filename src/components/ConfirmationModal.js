@@ -9,7 +9,8 @@ import {
   View,
 } from 'react-native'
 
-import colors from '../styles'
+import isAndroid from '../helpers/platform'
+import colors, { buttonStyle } from '../styles'
 
 const renderButtons = (button, index) => (
   <TouchableOpacity
@@ -58,21 +59,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalContent: {
-    height: 150,
-    width: 250,
-    marginTop: 40,
-    marginLeft: 10,
-    marginRight: 10,
+    height: 170,
+    width: 270,
+    marginTop: 60,
+    padding: 40,
     borderRadius: 15,
     borderColor: colors.BG,
     borderWidth: 1,
-    backgroundColor: colors.DG,
+    backgroundColor: colors.Punch,
     alignItems: 'center',
     justifyContent: 'space-evenly',
   },
   modalText: {
-    fontSize: 25,
-    color: colors.PW,
+    fontSize: isAndroid ? 18 : 22,
+    color: colors.White,
     textAlign: 'center',
   },
   modalButtonText: {
@@ -81,12 +81,11 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   modalButtonContainer: {
-    width: 180,
-    height: 50,
-    marginTop: 15,
-    borderRadius: 8,
+    ...buttonStyle,
+    marginTop: 30,
+    alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 10,
+    width: isAndroid ? 180 : 200,
   },
 })
 
