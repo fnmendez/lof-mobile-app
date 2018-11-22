@@ -1,8 +1,9 @@
 import {
   GET_BIKES,
+  GET_TRIPS,
   REQUEST_BIKE,
   RETURN_BIKE,
-  GET_TRIPS,
+  SAVE_TRIP,
 } from '../constants/bikes'
 
 export const getBikes = ({ latitude, longitude, token }) => (
@@ -15,24 +16,26 @@ export const getBikes = ({ latitude, longitude, token }) => (
     payload: api.getBikes({ latitude, longitude, token }),
   })
 
-export const requestBike = ({ rubi_id, token }) => (
+export const startTrip = ({ rubi_id, token }) => (
   dispatch,
   getState,
   { api }
 ) =>
   dispatch({
     type: REQUEST_BIKE,
-    payload: api.requestBike({ rubi_id, token }),
+    payload: api.startTrip({ rubi_id, token }),
   })
 
-export const returnBike = ({ tripId, token }) => (
-  dispatch,
-  getState,
-  { api }
-) =>
+export const finishTrip = ({ token }) => (dispatch, getState, { api }) =>
   dispatch({
     type: RETURN_BIKE,
-    payload: api.returnBike({ tripId, token }),
+    payload: api.finishTrip({ token }),
+  })
+
+export const saveTrip = ({ bike, trip }) => dispatch =>
+  dispatch({
+    type: SAVE_TRIP,
+    payload: { bike, trip },
   })
 
 export const getTrips = ({ token }) => (dispatch, getState, { api }) =>

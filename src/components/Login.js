@@ -11,7 +11,7 @@ import { Formik } from 'formik'
 
 import Input from './Input'
 import isAndroid from '../helpers/platform'
-import { LoginSchema } from '../helpers/validation'
+import { LoginSchema } from '../constants/validation'
 import colors from '../styles'
 
 const mapStateToProps = state => ({

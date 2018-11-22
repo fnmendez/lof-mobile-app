@@ -6,12 +6,11 @@ import BleManager from 'react-native-ble-manager'
 import configureStore from './store'
 import Api from './Api'
 import { Navigator } from './Navigator'
-import { API_URI } from './constants'
 
 console.disableYellowBox = true // eslint-disable-line no-console
 
 const initialState = {}
-const api = new Api(API_URI)
+const api = new Api()
 const { store, persistor } = configureStore(initialState, { api })
 
 // Export Bluetooth Manager Singleton

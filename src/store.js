@@ -9,7 +9,7 @@ import reducers from './reducers'
 import { routerMiddleware } from './Navigator'
 
 const persistConfig = {
-  blacklist: ['bikes'],
+  blacklist: ['bikes', 'nav'],
   key: 'root',
   storage,
 }

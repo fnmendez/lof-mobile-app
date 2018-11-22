@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import {
   ActivityIndicator,
   Image,
-  Platform,
   StatusBar,
   StyleSheet,
   Text,
@@ -13,7 +12,7 @@ import {
 } from 'react-native'
 
 import { BluetoothWindow, LockTutorial, TripInfo } from '../components'
-import { returnBike } from '../actions/bikes'
+import { finishTrip } from '../actions/bikes'
 import isAndroid from '../helpers/platform'
 import strToHexArr from '../helpers/stringToHex'
 import colors, { logoSmall, mainContainerStyle } from '../styles'
@@ -25,7 +24,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  returnBike,
+  finishTrip,
 }
 
 class TripWindow extends Component {
@@ -60,10 +59,7 @@ class TripWindow extends Component {
   }
 
   handleFinishTrip = () => {
-    this.props.returnBike({
-      tripId: this.props.currentTrip.tripId,
-      token: this.props.token,
-    })
+    this.props.finishTrip({ token: this.props.token })
   }
 
   showLockTutorial = () => {
@@ -92,7 +88,7 @@ class TripWindow extends Component {
             onOutsideClick={this.hideBluetoothWindow}
             onActionFinished={this.handleFinishTrip}
             onActionError={this.onUnlockError}
-            macAddress={Platform.OS === 'ios' ? macIOS : macAndroid}
+            macAddress={isAndroid ? macAndroid : macIOS}
             firstHandshake={strToHexArr(hs1)}
             secondHandshake={strToHexArr(hs2)}
           />
@@ -139,7 +135,7 @@ TripWindow.propTypes = {
   currentTrip: PropTypes.object,
   loading: PropTypes.bool.isRequired,
   navigation: PropTypes.object.isRequired,
-  returnBike: PropTypes.func.isRequired,
+  finishTrip: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
 }
 

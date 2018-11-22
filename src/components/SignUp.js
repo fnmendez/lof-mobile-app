@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 import { Formik } from 'formik'
 
-import { RegisterSchema } from '../helpers/validation'
+import { RegisterSchema } from '../constants/validation'
 import Input from './Input'
 import colors, { buttonStyle } from '../styles'
 

@@ -1,83 +1,54 @@
-import axios from 'axios'
+import { destroy, get, patch, post } from './helpers/requests'
 
 class Api {
-  constructor(baseUrl) {
-    this.baseUrl = baseUrl
-  }
-
-  request = async req => {
-    try {
-      const res = await req
-      return res.data
-    } catch (err) {
-      if (!err.response)
-        throw Object({
-          message: 'El servidor no responde, por favor intenta más tarde',
-        })
-      throw Object(err.response.data)
-    }
-  }
-
-  get = async (endpoint, token = '') =>
-    this.request(
-      axios.get(`${this.baseUrl}${endpoint}`, {
-        headers: { Authorization: token },
-      })
-    )
-
-  post = async (endpoint, body, token = '') =>
-    this.request(
-      axios.post(`${this.baseUrl}${endpoint}`, body, {
-        headers: { Authorization: token },
-      })
-    )
+  /**
+   * This class is used as singleton for handling communication with LOF API.
+   * This methods are used in redux actions.
+   */
 
   /* USER */
 
   signup = async userData => {
-    const response = await this.post('/signup', userData)
+    const response = await post('/signup', userData)
     return response
   }
 
   login = async userData => {
-    const response = await this.post('/login', userData)
+    const response = await post('/login', userData)
     return response
   }
 
   getUser = async ({ token }) => {
-    const response = await this.get(`/user/${token}`)
-    return response
-  }
-
-  updateUser = async ({ token, ...userData }) => {
-    const response = await this.post(`/user/${token}`, userData)
+    const response = await get(`/user/${token}`)
     return response
   }
 
   deleteUser = async ({ token }) => {
-    const response = await this.post(`/user/${token}/delete`, {})
+    const response = await destroy(`/user/${token}/delete`, {})
     return response
   }
 
   /* BIKES */
 
   getBikes = async ({ latitude, longitude, token }) => {
-    const response = await this.get(`/bikes/${latitude}/${longitude}`, token)
+    const response = await get(`/bikes/${latitude}/${longitude}`, token)
     return response
   }
 
-  requestBike = async ({ rubi_id, token }) => {
-    const response = await this.post(`/bikes/${rubi_id}/request`, {}, token)
-    return response
-  }
-
-  returnBike = async ({ tripId, token }) => {
-    const response = await this.post(`/bikes/trips/${tripId}`, {}, token)
-    return response
-  }
+  /* TRIPS */
 
   getTrips = async ({ token }) => {
-    const response = await this.get('/bikes/trips', token)
+    const response = await get('/trips', token)
+    return response
+  }
+
+  startTrip = async ({ rubi_id, token }) => {
+    const response = await post(`/trips/${rubi_id}`, {}, token)
+    return response
+  }
+
+  finishTrip = async ({ token }) => {
+    const response = await patch('/trips', {}, token)
     return response
   }
 }

@@ -13,8 +13,9 @@ import { NavigationEvents } from 'react-navigation'
 import Mapbox from '@mapbox/react-native-mapbox-gl'
 
 import { Bike, BluetoothWindow } from '../components'
-import { getBikes, requestBike } from '../actions/bikes'
+import { getBikes, startTrip } from '../actions/bikes'
 import { now } from '../helpers/parseDate'
+import sleep from '../helpers/time'
 import strToHexArr from '../helpers/stringToHex'
 import {
   MAPBOX_TOKEN,
@@ -36,7 +37,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getBikes,
-  requestBike,
+  startTrip,
 }
 
 class BikesMap extends Component {
@@ -59,9 +60,9 @@ class BikesMap extends Component {
     const { longitude, latitude } = coords
     this.setState({ userLocation: [longitude, latitude] })
     if (!this.state.bikesFetched) {
-      this.onMapLongPress()
       this.props.getBikes({ latitude, longitude, token: this.props.token })
       this.setState({ bikesFetched: true, updatedAt: now() })
+      sleep(this.onMapLongPress, 0) //
     }
   }
 
@@ -82,7 +83,9 @@ class BikesMap extends Component {
   }
 
   onMapLongPress = () => {
-    if (this.state.userLocation) this.map.flyTo(this.state.userLocation, 500)
+    if (this.state.userLocation) {
+      this.map.flyTo(this.state.userLocation, 700)
+    }
   }
 
   showBluetoothWindow = bluetoothParams => {
@@ -99,7 +102,7 @@ class BikesMap extends Component {
   onBikeUnlocked = () => {
     const { token } = this.props
     const { rubi_id } = this.state.selectedBike
-    this.props.requestBike({ rubi_id, token })
+    this.props.startTrip({ rubi_id, token })
   }
 
   onBikePress = bluetoothParams => {

@@ -4,16 +4,19 @@ import {
   GET_BIKES_PENDING,
   GET_BIKES_FULFILLED,
   GET_BIKES_REJECTED,
-  REQUEST_BIKE_PENDING,
-  REQUEST_BIKE_FULFILLED,
-  REQUEST_BIKE_REJECTED,
-  RETURN_BIKE_PENDING,
-  RETURN_BIKE_FULFILLED,
-  RETURN_BIKE_REJECTED,
   GET_TRIPS_PENDING,
   GET_TRIPS_FULFILLED,
   GET_TRIPS_REJECTED,
+  RETURN_BIKE_PENDING,
+  RETURN_BIKE_FULFILLED,
+  RETURN_BIKE_REJECTED,
+  REQUEST_BIKE_PENDING,
+  REQUEST_BIKE_FULFILLED,
+  REQUEST_BIKE_REJECTED,
+  SAVE_TRIP,
 } from '../constants/bikes'
+
+import { LOGIN_FULFILLED } from '../constants/user'
 
 const initialState = {
   available: [],
@@ -48,6 +51,13 @@ export default function reducer(state = initialState, action) {
     case REQUEST_BIKE_REJECTED: {
       return _.merge(state, { error: payload.message })
     }
+    case LOGIN_FULFILLED: {
+      const { trip, bike } = payload
+      if (!trip || Object.keys(trip).length === 0) return state
+      return _.merge(state, {
+        currentTrip: { ...trip, bike },
+      })
+    }
     case RETURN_BIKE_PENDING: {
       return _.merge(state, { loading: true })
     }
@@ -57,6 +67,12 @@ export default function reducer(state = initialState, action) {
     }
     case RETURN_BIKE_REJECTED: {
       return _.merge(state, { error: payload.message })
+    }
+    case SAVE_TRIP: {
+      const { trip, bike } = payload
+      return _.merge(state, {
+        currentTrip: { ...trip, bike },
+      })
     }
     case GET_TRIPS_PENDING: {
       return _.merge(state, { loading: true })

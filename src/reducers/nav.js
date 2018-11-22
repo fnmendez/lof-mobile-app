@@ -1,5 +1,4 @@
 import { NavigationActions, StackActions } from 'react-navigation'
-import get from 'lodash/get'
 
 import { BaseNavigator } from '../Navigator'
 import {
@@ -11,7 +10,9 @@ import {
 } from '../constants/user'
 import { RETURN_BIKE_FULFILLED } from '../constants/bikes'
 
-const firstAction = BaseNavigator.router.getActionForPathAndParams('Main')
+const firstAction = BaseNavigator.router.getActionForPathAndParams(
+  'SessionManager'
+)
 const initialNavState = BaseNavigator.router.getStateForAction(firstAction)
 
 export default function reducer(state = initialNavState, action) {
@@ -19,15 +20,20 @@ export default function reducer(state = initialNavState, action) {
   let nextState
   switch (type) {
     case LOGIN_FULFILLED: {
-      const confirmed = get(payload, ['confirmed'])
+      const { confirmed, trip } = payload
       if (!confirmed) {
         nextState = BaseNavigator.router.getStateForAction(
           NavigationActions.navigate({ routeName: 'ConfirmAccount' }),
           state
         )
+      } else if (trip) {
+        nextState = BaseNavigator.router.getStateForAction(
+          NavigationActions.navigate({ routeName: 'TripWindow' }),
+          state
+        )
       } else {
         nextState = BaseNavigator.router.getStateForAction(
-          NavigationActions.navigate({ routeName: 'Tabs' }),
+          NavigationActions.navigate({ routeName: 'BikesMap' }),
           state
         )
       }
@@ -41,7 +47,7 @@ export default function reducer(state = initialNavState, action) {
       break
     }
     case CHECK_CONFIRMATION_FULFILLED: {
-      const confirmed = get(payload, ['confirmed'])
+      const { confirmed } = payload
       if (!confirmed) {
         nextState = BaseNavigator.router.getStateForAction(
           NavigationActions.navigate({ routeName: 'ConfirmAccount' }),

@@ -3,8 +3,9 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react'
 import {
-  createStackNavigator,
   createBottomTabNavigator,
+  createStackNavigator,
+  createSwitchNavigator,
 } from 'react-navigation'
 import FA from 'react-native-vector-icons/FontAwesome'
 import FT from 'react-native-vector-icons/Feather'
@@ -18,6 +19,7 @@ import {
   Main,
   Profile,
   Register,
+  SessionManager,
   TripFinished,
   TripWindow,
 } from '../screens/'
@@ -68,8 +70,8 @@ const Tabs = createBottomTabNavigator(
   }
 )
 
-const StackNavigator = createStackNavigator(
-  // Screens
+const AuthStack = createStackNavigator(
+  // Authentication screens
   {
     Main: {
       screen: Main,
@@ -98,6 +100,23 @@ const StackNavigator = createStackNavigator(
         title: 'Confirma tu cuenta',
       },
     },
+  },
+  // Options
+  {
+    navigationOptions: {
+      initialRouteName: 'Main',
+      headerStyle: {
+        backgroundColor: colors.PuertoRico,
+        borderBottomWidth: 0,
+        elevation: 0,
+      },
+    },
+  }
+)
+
+const MainStack = createStackNavigator(
+  // Tabs and Trips screens
+  {
     Tabs: {
       screen: Tabs,
       navigationOptions: {
@@ -128,6 +147,7 @@ const StackNavigator = createStackNavigator(
   // Options
   {
     navigationOptions: {
+      initialRouteName: 'SessionManager',
       headerStyle: {
         backgroundColor: colors.PuertoRico,
         borderBottomWidth: 0,
@@ -137,4 +157,19 @@ const StackNavigator = createStackNavigator(
   }
 )
 
-export default StackNavigator
+const AppNavigator = createSwitchNavigator(
+  {
+    SessionManager: {
+      screen: SessionManager,
+      navigationOptions: {
+        header: null,
+        title: null,
+      },
+    },
+    AuthStack,
+    MainStack,
+  },
+  { initialRouteName: 'SessionManager' }
+)
+
+export default AppNavigator
