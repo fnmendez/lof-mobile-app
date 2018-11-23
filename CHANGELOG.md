@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.1.1"></a>
+## [0.1.1](https://github.com/fnmendez/lof-mobile-app/compare/v0.1.0...v0.1.1) (2018-11-23)
+
+
+### Bug Fixes
+
+* delete user and launch screen ([#14](https://github.com/fnmendez/lof-mobile-app/issues/14)) ([ca48e01](https://github.com/fnmendez/lof-mobile-app/commit/ca48e01))
+
+
+
 <a name="0.1.0"></a>
 # 0.1.0 (2018-11-22)
 
