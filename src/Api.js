@@ -24,7 +24,7 @@ class Api {
   }
 
   deleteUser = async ({ token }) => {
-    const response = await destroy(`/user/${token}/delete`, {})
+    const response = await destroy(`/user/${token}`, {})
     return response
   }
 

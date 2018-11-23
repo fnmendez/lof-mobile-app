@@ -23,10 +23,10 @@ export const get = async (endpoint, token = '') => {
   )
 }
 
-export const destroy = async (endpoint, body, token = '') =>
+export const destroy = async endpoint =>
   request(
-    axios.delete(`${API_URI}${endpoint}`, body, {
-      headers: { Authorization: token, Secret: API_SECRET },
+    axios.delete(`${API_URI}${endpoint}`, {
+      headers: { Secret: API_SECRET },
     })
   )
 

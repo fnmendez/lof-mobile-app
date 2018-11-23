@@ -15,9 +15,10 @@
             <rect key="frame" x="0.0" y="0.0" width="977" height="1019"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" insetsLayoutMarginsFromSafeArea="NO" image="logo-1024" translatesAutoresizingMaskIntoConstraints="NO" id="vZw-1o-EhH">
-                    <rect key="frame" x="248" y="269" width="480" height="480"/>
-                    <autoresizingMask key="autoresizingMask"/>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" image="logo-1024" translatesAutoresizingMaskIntoConstraints="NO" id="vEX-am-VWO">
+                    <rect key="frame" x="247" y="269" width="480" height="480"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
