@@ -1,4 +1,4 @@
-package com.lof;
+package com.rubico.lof;
 
 import com.facebook.react.ReactActivity;
 

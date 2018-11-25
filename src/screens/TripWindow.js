@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
-  ActivityIndicator,
   Image,
   StatusBar,
   StyleSheet,
@@ -115,17 +114,12 @@ class TripWindow extends Component {
         >
           <Text style={styles.buttonText}>Cómo termino mi viaje</Text>
         </TouchableOpacity>
-        {!this.props.loading && (
-          <TouchableOpacity
-            style={styles.finishTripButtonContainer}
-            onPress={this.showBluetoothWindow}
-          >
-            <Text style={styles.buttonText}>Terminar viaje</Text>
-          </TouchableOpacity>
-        )}
-        {this.props.loading && (
-          <ActivityIndicator size="large" color={colors.SeaBuckthorn} />
-        )}
+        <TouchableOpacity
+          style={styles.finishTripButtonContainer}
+          onPress={this.showBluetoothWindow}
+        >
+          <Text style={styles.buttonText}>Terminar viaje</Text>
+        </TouchableOpacity>
       </View>
     )
   }

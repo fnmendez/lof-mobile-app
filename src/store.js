@@ -11,6 +11,7 @@ import { routerMiddleware } from './Navigator'
 const persistConfig = {
   blacklist: ['bikes', 'nav'],
   key: 'root',
+  timeout: 0,
   storage,
 }
 const persistedReducers = persistReducer(persistConfig, reducers)

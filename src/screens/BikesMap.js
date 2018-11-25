@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
-  Platform,
   StatusBar,
   StyleSheet,
   Text,
@@ -14,9 +13,12 @@ import Mapbox from '@mapbox/react-native-mapbox-gl'
 
 import { Bike, BluetoothWindow } from '../components'
 import { getBikes, startTrip } from '../actions/bikes'
+import {
+  platform as isAndroid,
+  stringToHex as strToHexArr,
+  time as sleep,
+} from '../helpers/'
 import { now } from '../helpers/parseDate'
-import sleep from '../helpers/time'
-import strToHexArr from '../helpers/stringToHex'
 import {
   MAPBOX_TOKEN,
   mapboxConfig,
@@ -25,8 +27,6 @@ import {
 import colors from '../styles'
 
 Mapbox.setAccessToken(MAPBOX_TOKEN)
-
-const isAndroid = Platform.OS === 'android'
 
 const mapStateToProps = state => ({
   bikes: state.bikes.available,
@@ -54,6 +54,18 @@ class BikesMap extends Component {
     if (this.props.currentTrip !== null && this.props.navigation.isFocused()) {
       this.props.navigation.navigate('TripWindow')
     }
+  }
+
+  onDidFocus = () => {
+    StatusBar.setBarStyle('dark-content')
+    this.onMapLongPress()
+    if (this.shouldUpdateBikesLocation()) {
+      this.updateBikesLocation()
+    }
+  }
+
+  onWillBlur = () => {
+    this.hideBluetoothWindow()
   }
 
   onUserLocationUpdate = ({ coords }) => {
@@ -132,14 +144,8 @@ class BikesMap extends Component {
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
         <NavigationEvents
-          onDidFocus={() => {
-            StatusBar.setBarStyle('dark-content')
-            this.onMapLongPress()
-            if (this.shouldUpdateBikesLocation()) {
-              this.updateBikesLocation()
-            }
-          }}
-          onWillBlur={() => this.hideBluetoothWindow()}
+          onDidFocus={this.onDidFocus}
+          onWillBlur={this.onWillBlur}
         />
         {rubi_id && hs1 && hs2 && (
           <BluetoothWindow
@@ -159,7 +165,7 @@ class BikesMap extends Component {
           styleURL={Mapbox.StyleURL.Light}
           style={styles.container}
           showUserLocation={true}
-          userTrackingMode={2}
+          userTrackingMode={isAndroid ? 1 : 2}
           onUserLocationUpdate={this.onUserLocationUpdate}
           onLongPress={this.onMapLongPress}
           {...mapboxConfig}
