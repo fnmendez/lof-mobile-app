@@ -4,6 +4,8 @@
 [![prettierB]][prettierL]
 [![commitsB]][commitsL]
 
+![Alt Text](https://media.giphy.com/media/9rlYyzsrOO7bbMeme7/giphy.gif)
+
 ## About
 
 This mobile app is built with [React Native](https://facebook.github.io/react-native/) and [Redux](https://redux.js.org/). It consumes an API located [here](https://github.com/fnmendez/lof-api). It offers an instant bike booking service using Location and Bluetooth Low Energy interfaces.
@@ -36,6 +38,20 @@ If you want to use Android and iOS simulators instead, run
 ```sh
 yarn sim
 ```
+
+## Environment variables
+
+|variable|use|
+|:-:|:-:|
+|API_URI|API base url for requests|
+|API_SECRET|API secret header for security|
+|BLE_SERVICE_UUID|BLE Locks service UUID|
+|BLE_CHARACTERISTIC_UUID|BLE Locks characteristic UUID|
+|BLE_GET_INFO_PAYLOAD|BLE Locks command payload|
+|BLE_REQUEST_OPEN_PAYLOAD|BLE Locks command payload|
+|BLE_REQUEST_LOCK_PAYLOAD|BLE Locks command payload|
+|MAPBOX_TOKEN|Mapbox token|
+
 
 ## Dependencies
 
